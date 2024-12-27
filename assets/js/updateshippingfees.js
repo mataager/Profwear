@@ -54,32 +54,14 @@ function updateShippingFees() {
   // If free shipping is not applicable, use the old logic
   if (shippingFeesElement) {
     if (savedGovernorate) {
-      if (
-        [
-          "Cairo",
-          "Giza",
-          "Alexandria",
-          "Port Said",
-          "Suez",
-          "Damietta",
-          "Fayoum",
-          "Dakahlia",
-          "Sharqia",
-          "Qalyubia",
-          "Kafr El Sheikh",
-          "Gharbia",
-          "Monufia",
-          "Beheira",
-          "Ismailia",
-        ].includes(savedGovernorate)
-      ) {
+      if (["Cairo", "Giza"].includes(savedGovernorate)) {
         shippingFeesElement.innerText = "65 EGP";
         shippingFeesElementtotal.innerText = "65 EGP";
         localStorage.setItem("shippingFees", "65");
       } else {
-        shippingFeesElement.innerText = "100 EGP";
-        shippingFeesElementtotal.innerText = "100 EGP";
-        localStorage.setItem("shippingFees", "100");
+        shippingFeesElement.innerText = "80 EGP";
+        shippingFeesElementtotal.innerText = "80 EGP";
+        localStorage.setItem("shippingFees", "80");
       }
     } else {
       console.log("Saved City from localStorage:", savedGovernorate);
