@@ -846,7 +846,7 @@ async function updateCustomerOrder(
   status,
   idToken
 ) {
-  const orderHistoryUrl = `https://matager-f1f00-default-rtdb.firebaseio.com/users/${customerUid}/orderHistory/${customerOrderUid}.json?auth=${idToken}`;
+  const orderHistoryUrl = `https://matager-f1f00-default-rtdb.firebaseio.com/users/${customerUid}/orderHistory/${uid}/${customerOrderUid}.json?auth=${idToken}`;
   try {
     const response = await fetch(orderHistoryUrl, {
       method: "PATCH",
