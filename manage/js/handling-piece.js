@@ -5,7 +5,6 @@ const pieces = {
     { value: "Polo-Shirt", text: "Polo-Shirt" },
     { value: "Shirt", text: "Shirt" },
     { value: "Tank-top", text: "Tank-top" },
-    { value: "Track-Suit", text: "Track-Suit" },
     { value: "Sweatshirt", text: "Sweatshirt" },
     { value: "Hoodie", text: "Hoodie" },
     { value: "Knitwear", text: "Knitwear" },
@@ -30,7 +29,6 @@ const pieces = {
     { value: "Shirt", text: "Shirt" },
     { value: "Blouse", text: "Blouse" },
     { value: "Cardigan", text: "Cardigan" },
-    { value: "Track-Suit", text: "Track-Suit" },
     { value: "Dress", text: "Dress" },
     { value: "Sweatshirt", text: "Sweatshirt" },
     { value: "Hoodie", text: "Hoodie" },
@@ -56,7 +54,6 @@ const pieces = {
     { value: "Shirt", text: "Shirt" },
     { value: "Blouse", text: "Blouse" },
     { value: "Cardigan", text: "Cardigan" },
-    { value: "Track-Suit", text: "Track-Suit" },
     { value: "Dress", text: "Dress" },
     { value: "Tank-top", text: "Tank-top" },
     { value: "Sweatshirt", text: "Sweatshirt" },
@@ -109,7 +106,7 @@ const bottomPieces = [
   "Socks",
 ];
 
-const mixPieces = ["Dress", "Jumpsuit","Track-Suit"];
+const mixPieces = ["Dress", "Jumpsuit"];
 
 const footwearPieces = ["Shoes", "Slipper", "Heels"];
 

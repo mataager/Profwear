@@ -36,25 +36,6 @@
     <script src="./assets/js/fetch-free.js"></script>
     <script src="./assets/js/search-product.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Meta Pixel Code -->
-    <script>
-        !function (f, b, e, v, n, t, s) {
-            if (f.fbq) return; n = f.fbq = function () {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-            n.queue = []; t = b.createElement(e); t.async = !0;
-            t.src = v; s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window, document, 'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1320894502664258');
-        fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=1320894502664258&ev=PageView&noscript=1" /></noscript>
-    <!-- End Meta Pixel Code -->
 
 </head>
 
@@ -90,11 +71,10 @@
                         <a href="#" class="navbar-link" onclick="changeFrameSrc('index.html')">Home</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
+                        <div class="flex align-items justify-content-space-between">
+                            <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
+                        </div>
                     </li>
-                    <!-- <li class="navbar-item">
-                                        <a href="#" class="navbar-link" onclick="changeFrameSrc('About.html')">About</a>
-                                    </li> -->
                     <li class="navbar-item hidden" id="megamenu" data-mega-menu>
                         <div class="flex align-items justify-content-space-between">
                             <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
@@ -198,6 +178,9 @@
             <div class="loader"></div>
         </div>
         <article id="mainpage">
+
+
+
             <section class="section hero" id="panner-img">
                 <div class="container">
 
@@ -210,25 +193,14 @@
                         iconic
                         <strong>Nike Tech Fleece</strong>, and enjoy unbeatable comfort and style.
                     </p>
-                    <div class="flex align-items gap-10">
-                        <a href="./Products.html">
-                            <button class="btn-shopnow radius-20">
-                                <span>Shop Now</span>
+                    <a href="./Products.html">
+                        <button class="btn-shopnow">
+                            <span>Shop Now</span>
 
-                                <ion-icon name="arrow-forward-outline" aria-hidden="true" role="img"
-                                    class="md hydrated"></ion-icon>
-                            </button>
-                        </a>
-                        <a href="./sale.html">
-                            <button class="btn-shopnow radius-20">
-                                <span>Sale</span>
-
-                                <ion-icon name="arrow-forward-outline" aria-hidden="true" role="img"
-                                    class="md hydrated"></ion-icon>
-                            </button>
-                        </a>
-                    </div>
-
+                            <ion-icon name="arrow-forward-outline" aria-hidden="true" role="img"
+                                class="md hydrated"></ion-icon>
+                        </button>
+                    </a>
 
 
                 </div>
@@ -236,10 +208,8 @@
             </section>
 
             <div>
-
-
                 <div id="men-area" class="hidden">
-                    <section class="mt-40 flex flex-wrap hidden">
+                    <section class="mt-40 flex flex-wrap">
 
                         <div class="collection-card height-200 width-available m-20 pointer" id="mencollection-img"
                             onclick="changeFrameSrc('./Category.html?category=men')">
@@ -257,7 +227,6 @@
                         <div class="container">
 
                             <ul class="collection-list has-scrollbar">
-
                                 <li>
 
                                     <div class="collection-card height-400 flex-start p-0 pointer" id="men-top-img"
@@ -735,6 +704,107 @@
                 </div>
             </div>
 
+            <div class="scroll-container flex space-around height-max hidden" id="piece-choose">
+                <div class="flex center align-items m-20 shop-by-piece">
+                    <h4>Shop By Piece</h4>
+                </div>
+
+                <div class="scroll-container ">
+                    <a href="./Category.html?piece=T-Shirt">
+                        <div class="scroll-item"
+                            style="background-image: url('https://i.imgur.com/0sakCXs_d.webp?maxwidth=760&fidelity=grand');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                T-shirts
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./Category.html?piece=Polo-Shirt">
+                        <div class="scroll-item" style="background-image: url('https://i.imgur.com/AdMd7Ls.jpeg');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Polo Shirt
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./Category.html?piece=Jeans">
+                        <div class="scroll-item"
+                            style="background-image: url('https://i.imgur.com/mncaF0c_d.webp?maxwidth=760&fidelity=grand');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Jeans
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./Category.html?piece=Short">
+                        <div class="scroll-item"
+                            style="background-image: url('https://i.imgur.com/ErdoQyD_d.webp?maxwidth=760&fidelity=grand');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Shorts
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./Category.html?piece=Shirt">
+                        <div class="scroll-item"
+                            style="background-image: url('https://i.imgur.com/Znqhncx_d.webp?maxwidth=760&fidelity=grand');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Shirts
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./Category.html?piece=Hoodie">
+                        <div class="scroll-item" style="background-image: url('https://i.imgur.com/389Wcvs.jpeg');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Hoodies
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./Category.html?piece=Sweatshirt">
+                        <div class="scroll-item" style="background-image: url('https://i.imgur.com/dOfWBwl.jpeg');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Sweat Shirt
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./Category.html?piece=Jacket">
+                        <div class="scroll-item" style="background-image: url('https://i.imgur.com/3jDvg2e.jpeg');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Jackets
+                            </div>
+                        </div>
+                    </a>
+                    </a>
+                    <a href="./Category.html?piece=Swimwear">
+                        <div class="scroll-item"
+                            style="background-image: url('https://i.imgur.com/xzdoYtt_d.webp?maxwidth=760&fidelity=grand');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Swim Wear
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./Category.html?piece=Underwear">
+                        <div class="scroll-item"
+                            style="background-image: url('https://i.imgur.com/iEoH0Vs_d.webp?maxwidth=760&fidelity=grand');">
+                            <div class="overlay-category">
+                                <i class="bi bi-arrow-right-short"></i>
+                                Underwear
+                            </div>
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+                <!-- Add more items as needed -->
+
+            </div>
 
             <section class="section product">
                 <div class="container">
@@ -871,6 +941,11 @@
         </div>
 
 
+    </div>
+    <div id="modal-fav" class="modal">
+        <div id="modal-fav-content" class="fav-modal-content">
+
+        </div>
     </div>
 
     <footer class="footer">
@@ -1074,6 +1149,7 @@
     <script src="./assets/js/rendering-megamenu.js"></script>
     <script src="./assets/js/rendering-collections.js"></script>
     <script src="./assets/js/rendering-search.js"></script>
+    <script src="./assets/js/addfavouriteproduct.js"></script>
 </body>
 
 </html>

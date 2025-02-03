@@ -46,7 +46,8 @@ function updateShippingFees() {
   // Check if free shipping threshold is met
   if (cartTotal > freeshipping || totalCartAmount > freeshipping) {
     if (shippingFeesElement) shippingFeesElement.innerText = "0 EGP";
-    if (shippingFeesElementtotal) shippingFeesElementtotal.innerText = "0 EGP";
+    if (shippingFeesElementtotal)
+      shippingFeesElementtotal.innerText = "Free Shipping";
     localStorage.setItem("shippingFees", "0");
     return; // Exit early since no further calculation is needed
   }
@@ -54,14 +55,32 @@ function updateShippingFees() {
   // If free shipping is not applicable, use the old logic
   if (shippingFeesElement) {
     if (savedGovernorate) {
-      if (["Cairo", "Giza"].includes(savedGovernorate)) {
+      if (
+        [
+          "Cairo",
+          "Giza",
+          "Alexandria",
+          "Port Said",
+          "Suez",
+          "Damietta",
+          "Fayoum",
+          "Dakahlia",
+          "Sharqia",
+          "Qalyubia",
+          "Kafr El Sheikh",
+          "Gharbia",
+          "Monufia",
+          "Beheira",
+          "Ismailia",
+        ].includes(savedGovernorate)
+      ) {
         shippingFeesElement.innerText = "65 EGP";
         shippingFeesElementtotal.innerText = "65 EGP";
         localStorage.setItem("shippingFees", "65");
       } else {
-        shippingFeesElement.innerText = "80 EGP";
-        shippingFeesElementtotal.innerText = "80 EGP";
-        localStorage.setItem("shippingFees", "80");
+        shippingFeesElement.innerText = "100 EGP";
+        shippingFeesElementtotal.innerText = "100 EGP";
+        localStorage.setItem("shippingFees", "100");
       }
     } else {
       console.log("Saved City from localStorage:", savedGovernorate);
@@ -115,3 +134,5 @@ function appendShippingFeeDiv(city, cartItems) {
   console.log(`Cart Total: ${cartTotal.toFixed(2)} EGP`);
   console.log(`Shipping Fee: ${shippingFees.toFixed(2)} EGP`);
 }
+
+
