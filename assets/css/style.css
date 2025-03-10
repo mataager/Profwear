@@ -2832,7 +2832,7 @@ select {
   display: flex;
   justify-content: center;
   z-index: 100;
-  padding: 0.5rem;
+  padding: 3.5rem;
   font-size: small;
   text-align: center;
   background-color: black;
