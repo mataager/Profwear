@@ -8,7 +8,7 @@ const storePhoneNum2 = "";
 const storeEmail = "yassinsalman2007@gmail.com";
 const storeGender = [];
 const storeType = "clothing"; // clothing or footwear
-const freeshipping = "2500";
+const freeshipping = "1";
 //images url
 const pannerurl = "https://i.imgur.com/TwU6xKz.jpeg";
 //
