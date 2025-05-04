@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const body = document.querySelector("body");
 
@@ -9,21 +8,18 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="modal" id="bug-modal">
       <div class="modal-report-content">
         <div class="flex align-items flex-end width-available">
-          <span class="close-btn pointer" id="close-modal"><i class="bi bi-x-lg"></i></span>
+          <span class="close-btn-report pointer" id="close-modal"><i class="bi bi-x-lg"></i></span>
         </div>
-        <h2 class="mr-20">Report a Problem</h2>
-        <form class="width-available" id="bug-form">
-          <div class="flex center align-items flex-direction-column m-20">
-            <h4 for="customer-name" class="h5-form m-5">Name</h4>
-            <input type="text" id="customer-name" required class="input-report width-70-percent">
+        <h4 class="mr-20">Report a Problem</h4>
+        <form class="width-available flex flex-direction-column align-items" id="bug-form">
+          <div class="flex center align-items flex-direction-column m-20 width-available">
+          <input type="text" id="customer-name" placeholder="Enter your name" required style="padding: 10px; border: 1px solid rgb(204, 204, 204); border-radius: 5px;">
           </div>
-          <div class="flex center align-items flex-direction-column m-20">
-            <h4 for="customer-phoneNumber" class="h5-form m-5">Phone Number</h4>
-            <input type="text" id="customer-phoneNumber" required class="input-report width-70-percent">
+          <div class="flex center align-items flex-direction-column m-20 width-available">
+           <input type="text" id="customer-phoneNumber" placeholder="Enter your Phone Number" required style="padding: 10px; border: 1px solid rgb(204, 204, 204); border-radius: 5px;">
           </div>
-          <div class="flex center flex-direction-column m-20">
-            <h4 for="problem-description" class="h5-form m-5">Describe the problem</h4>
-            <textarea id="problem-description" rows="4" name="text" required class="input-cart textarea-address input-report"></textarea>
+          <div class="flex center flex-direction-column m-20 width-available">
+            <textarea class="input" id="problem-description" required placeholder="Describe the problem" style="width: -webkit-fill-available; background: none; color: rgb(51, 51, 51); font-family: inherit; font-size: medium; padding: 10px; border: 1px solid rgb(204, 204, 204); border-radius: 5px; resize: vertical; min-height: 100px;"></textarea>
           </div>
           <div class="flex center m-5">
             <button class="btn2" type="submit">Submit</button>
@@ -35,18 +31,18 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
   // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDss53pHibCpqo87_1bhoUHkf8Idnj-Fig",
-    authDomain: "matager-f1f00.firebaseapp.com",
-    projectId: "matager-f1f00",
-    storageBucket: "matager-f1f00.appspot.com",
-    messagingSenderId: "922824110897",
-    appId: "1:922824110897:web:b7978665d22e2d652e7610",
-  };
+  // const firebaseConfig = {
+  //   apiKey: "AIzaSyDss53pHibCpqo87_1bhoUHkf8Idnj-Fig",
+  //   authDomain: "matager-f1f00.firebaseapp.com",
+  //   projectId: "matager-f1f00",
+  //   storageBucket: "matager-f1f00.appspot.com",
+  //   messagingSenderId: "922824110897",
+  //   appId: "1:922824110897:web:b7978665d22e2d652e7610",
+  // };
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
+  // // Initialize Firebase
+  // firebase.initializeApp(firebaseConfig);
+  // const auth = firebase.auth();
 
   const reportBugBtn = document.getElementById("report-bug-btn");
   const bugModal = document.getElementById("bug-modal");
@@ -137,24 +133,36 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         Swal.fire({
+          toast: true,
+          position: "top-end",
           icon: "success",
           title: "Report Submitted!",
           text: "Your report has been successfully submitted.",
           showConfirmButton: false,
-          timer: 3000, // Auto close after 3 seconds
+          timer: 3000,
+          timerProgressBar: true,
+          background: "#f8f9fa",
+          iconColor: "#28a745",
+          color: "#495057",
         });
-        bugModal.classList.remove("show"); // Hide modal after successful submission
-        bugForm.reset(); // Reset the form
+        bugModal.classList.remove("show"); // Hide modal
+        bugForm.reset(); // Reset form
       })
       .catch((error) => {
         console.error("Error reporting the problem:", error);
         Swal.fire({
+          toast: true,
+          position: "top-end",
           icon: "error",
           title: "Oops...",
           text: "There was an issue submitting your report. Please try again.",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          background: "#f8f9fa",
+          iconColor: "#dc3545",
+          color: "#495057",
         });
       });
   });
 });
-
-

@@ -1,8 +1,60 @@
+document.addEventListener("DOMContentLoaded", () => {
+  // Hide or show the menu items based on productnavbar and brandsnavbar values
+  const productMenu = document.getElementById("megamenu");
+  const brandsMenu = document.getElementById("brandsmenu");
+
+  if (!productnavbar.includes("yes")) {
+    productMenu.classList.add("hidden");
+  }
+
+  if (!brandsnavbar.includes("yes")) {
+    brandsMenu.classList.add("hidden");
+  }
+
+  // Function to handle menu toggle behavior
+  function setupMenuToggle(menuId, buttonId) {
+    const navbarItem = document.getElementById(menuId);
+    const toggleButton = document.getElementById(buttonId);
+
+    if (!navbarItem || !toggleButton) return;
+
+    toggleButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      navbarItem.classList.toggle("active");
+
+      if (navbarItem.classList.contains("active")) {
+        toggleButton.classList.add("rotate-360");
+        toggleButton.classList.remove("rotate-back");
+        toggleButton.innerHTML = '<i class="bi bi-dash"></i>';
+      } else {
+        toggleButton.classList.add("rotate-back");
+        toggleButton.classList.remove("rotate-360");
+        toggleButton.innerHTML = '<i class="bi bi-plus"></i>';
+      }
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!navbarItem.contains(e.target) && !toggleButton.contains(e.target)) {
+        navbarItem.classList.remove("active");
+        toggleButton.classList.remove("rotate-360");
+        toggleButton.classList.add("rotate-back");
+        toggleButton.innerHTML = '<i class="bi bi-plus"></i>';
+      }
+    });
+  }
+
+  // Setup both menus
+  setupMenuToggle("megamenu", "open-category");
+  setupMenuToggle("brandsmenu", "open-brands");
+});
+
+//
+
+//rendring megamenu
 const showMen = storeGender.includes("Men");
 const showWomen = storeGender.includes("Women");
 const showKids = storeGender.includes("Kids");
-
-
 function renderMegaMenu() {
   const megaMenu = document.getElementById("mega-menu");
   megaMenu.innerHTML = `
@@ -204,6 +256,131 @@ function renderMegaMenu() {
     </div>
   `;
 }
-
 // Call the function to render the menu
 renderMegaMenu();
+
+//
+
+// rendering brands
+const brandsData = [
+  {
+    name: "Nike",
+    logo: "https://cdn.worldvectorlogo.com/logos/nike-11.svg",
+  },
+  {
+    name: "Adidas",
+    logo: "https://www.svgrepo.com/show/329847/adidas.svg",
+  },
+  {
+    name: "On Cloud",
+    logo: "https://images.seeklogo.com/logo-png/51/1/on-running-logo-png_seeklogo-510256.png",
+  },
+  {
+    name: "Puma",
+    logo: "https://www.svgrepo.com/show/303470/puma-logo-logo.svg",
+  },
+  {
+    name: "Jordan",
+    logo: "https://www.svgrepo.com/show/303555/jordan-air-logo.svg",
+  },
+  {
+    name: "ASICS",
+    logo: "https://cdn.worldvectorlogo.com/logos/asics-6.svg",
+  },
+  {
+    name: "Golden Goose",
+    logo: "https://cdn.freelogovectors.net/wp-content/uploads/2023/03/golden-goose-logo-freelogovectors.net_.png",
+  },
+  {
+    name: "New Balance",
+    logo: "https://cdn.worldvectorlogo.com/logos/new-balance-2.svg",
+  },
+  {
+    name: "Onitsuka Tiger",
+    logo: "https://cdn.worldvectorlogo.com/logos/onitsuka-tiger-1.svg",
+  },
+  {
+    name: "UGG",
+    logo: "https://cdn.worldvectorlogo.com/logos/ugg-australia.svg",
+  },
+  {
+    name: "Vans",
+    logo: "https://cdn.worldvectorlogo.com/logos/vans-3.svg",
+  },
+  {
+    name: "Valentino",
+    logo: "https://cdn.worldvectorlogo.com/logos/valentino-1.svg",
+  },
+];
+
+// brands-menu.js
+document.addEventListener("DOMContentLoaded", () => {
+  const brandsMenu = document.getElementById("brands-mega-menu");
+
+  // Create menu structure
+  brandsMenu.innerHTML = `
+    
+      <div class="flex col-u-991" id="brands-categories-container">
+        <!-- Categories will be generated here -->
+      </div>
+    
+  `;
+
+  // Group brands into categories (3 brands per column)
+  const categories = [];
+  for (let i = 0; i < brandsData.length; i += 3) {
+    categories.push(brandsData.slice(i, i + 3));
+  }
+
+  // Generate categories HTML
+  const categoriesContainer = document.getElementById(
+    "brands-categories-container"
+  );
+  categories.forEach((categoryBrands, index) => {
+    const categoryElement = document.createElement("div");
+    categoryElement.className = "menu-category";
+
+    const listHTML = categoryBrands
+      .map(
+        (brand) => `
+      <li>
+        <img width="20px" src="${brand.logo}" alt="${brand.name}">
+        <a href="#" onclick="brand('${brand.name}')">${brand.name}</a>
+      </li>
+    `
+      )
+      .join("");
+
+    categoryElement.innerHTML = `<ul>${listHTML}</ul>`;
+    categoriesContainer.appendChild(categoryElement);
+  });
+
+  // Add toggle functionality
+  const toggleButton = document.getElementById("open-brands");
+
+  toggleButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    brandsMenu.classList.toggle("active");
+
+    if (brandsMenu.classList.contains("active")) {
+      toggleButton.classList.add("rotate-360");
+      toggleButton.classList.remove("rotate-back");
+      toggleButton.innerHTML = '<i class="bi bi-dash"></i>';
+    } else {
+      toggleButton.classList.add("rotate-back");
+      toggleButton.classList.remove("rotate-360");
+      toggleButton.innerHTML = '<i class="bi bi-plus"></i>';
+    }
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!brandsMenu.contains(e.target)) {
+      brandsMenu.classList.remove("active");
+      toggleButton.classList.remove("rotate-360");
+      toggleButton.classList.add("rotate-back");
+      toggleButton.innerHTML = '<i class="bi bi-plus"></i>';
+    }
+  });
+});
+//

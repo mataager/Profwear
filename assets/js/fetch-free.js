@@ -1,41 +1,3 @@
-// function setupHoverEffect(productItem) {
-//   // Get the images inside the current product item
-//   var images = productItem.querySelectorAll(".image-contain");
-
-//   // Function to show the second image
-//   function showSecondImage() {
-//     images[0].style.display = "none";
-//     images[1].style.display = "block";
-//   }
-
-//   // Function to show the first image
-//   function showFirstImage() {
-//     images[0].style.display = "block";
-//     images[1].style.display = "none";
-//   }
-
-//   // Add event listener for mouseenter (hover in)
-//   productItem.addEventListener("mouseenter", showSecondImage);
-
-//   // Add event listener for mouseleave (hover out)
-//   productItem.addEventListener("mouseleave", showFirstImage);
-
-//   // Add event listener for touchstart (tap in)
-//   productItem.addEventListener("touchstart", function () {
-//     // Prevent the touch event from triggering a click
-//     event.preventDefault();
-//     showSecondImage();
-//   });
-
-//   // Add event listener for touchend (tap out)
-//   productItem.addEventListener("touchend", function () {
-//     showFirstImage();
-//   });
-
-//   // Add event listener for touchcancel (in case the touch action is interrupted)
-//   productItem.addEventListener("touchcancel", showFirstImage);
-// }
-
 function fetchAndRenderProducts() {
   document.getElementById("preloader").style.display = "flex";
   fetch(`${url}/Stores/${uid}/Products.json`)
@@ -43,9 +5,11 @@ function fetchAndRenderProducts() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+
       return response.json();
     })
     .then((data) => {
+      createSearchIndex(data);
       // Check if data is not empty
       if (data) {
         const productOverview = document.querySelector(".product-overview");
@@ -78,27 +42,15 @@ function fetchAndRenderProducts() {
           newProductItem.classList.add("product-item");
 
           const productCard = document.createElement("div");
-          productCard.classList.add("product-card");
+          productCard.classList.add("fit-content");
 
           const saleAmount = product["sale-amount"];
           const originalPrice = product["Product-Price"];
 
-          function calculateSalePrice(originalPrice, saleAmount) {
-            // Ensure originalPrice and saleAmount are integers
-            const intOriginalPrice = Math.floor(originalPrice);
-            const intSaleAmount = Math.floor(saleAmount);
-
-            // Calculate sale price
-            const salePrice = intOriginalPrice * (1 - intSaleAmount / 100);
-
-            // Return the integer part of the sale price
-            return Math.floor(salePrice);
-          }
-
           const salePrice = calculateSalePrice(originalPrice, saleAmount);
           // Check if the product is a best seller
           const bestSellerHTML = product["bestseller"]
-            ? `<div class="best-seller" id="best-seller">bestseller<i class="bi bi-lightning-charge"></i></div>`
+            ? `<div class="best-seller" id="best-seller"><i class="bi bi-lightning-charge"></i></div>`
             : "";
           //
 
@@ -142,7 +94,7 @@ function fetchAndRenderProducts() {
               </div>
             </div>
           `;
-
+          // Observe the new card with staggered delay
           newProductItem.appendChild(productCard);
           newArrivalsContainer.appendChild(newProductItem);
 
@@ -156,7 +108,10 @@ function fetchAndRenderProducts() {
         // Iterate through the limited data and render each product in the product overview
         limitedData.forEach(([key, product]) => {
           const productCard = document.createElement("div");
-          productCard.classList.add("product-card-overview");
+          productCard.classList.add(
+            "product-card-overview",
+            "animate-on-scroll"
+          );
 
           // Get colors for all sizes if sizes property exists (your existing logic)
           const allColors = new Set();
@@ -196,20 +151,9 @@ function fetchAndRenderProducts() {
           const saleAmount = product["sale-amount"];
           const originalPrice = product["Product-Price"];
 
-          function calculateSalePrice(originalPrice, saleAmount) {
-            // Ensure originalPrice and saleAmount are integers
-            const intOriginalPrice = Math.floor(originalPrice);
-            const intSaleAmount = Math.floor(saleAmount);
-
-            // Calculate sale price
-            const salePrice = intOriginalPrice * (1 - intSaleAmount / 100);
-
-            // Return the integer part of the sale price
-            return Math.floor(salePrice);
-          }
           // Check if the product is a best seller
           const bestSellerHTML = product["bestseller"]
-            ? `<div class="best-seller" id="best-seller">bestseller<i class="bi bi-lightning-charge"></i></div>`
+            ? `<div class="best-seller" id="best-seller"><i class="bi bi-lightning-charge"></i></div>`
             : "";
           //
           const salePrice = calculateSalePrice(originalPrice, saleAmount);
@@ -285,10 +229,14 @@ function fetchAndRenderProducts() {
       } else {
         const productOverview = document.getElementById("mainpage");
         document.getElementById("preloader").style.display = "none";
-        productOverview.innerHTML = `<div class="no-product-message-container">
-        <img src="https://i.imgur.com/xonwgsq_d.webp?maxwidth=760&fidelity=grand" width=300>
-        
-    </div>`;
+        productOverview.innerHTML = `
+    <div class="no-product-message-container">
+    <i class="bi bi-exclamation-octagon icon"></i>
+        <div class="No-available-items">
+            <p>No products available at this time</p>
+        </div>
+    </div>
+`;
       }
     })
     .catch((error) => {
@@ -296,6 +244,27 @@ function fetchAndRenderProducts() {
     });
 }
 
+// function for store products data in local storage to help in the search
+function createSearchIndex(productsData) {
+  const searchIndex = {};
+
+  for (const productId in productsData) {
+    const product = productsData[productId];
+
+    searchIndex[productId] = {
+      id: productId,
+      title: product["product-title"] || "",
+      photo: product["product-photo"] || "",
+      category: product.category || "",
+      type: product.type || "",
+      price: product["Product-Price"] || "",
+      saleAmount: product["sale-amount"] || 0,
+    };
+  }
+
+  // Store in localStorage for fast client-side searching
+  localStorage.setItem("productSearchIndex", JSON.stringify(searchIndex));
+}
 // Helper function to get color value from the product data (your existing logic)
 function getColorValue(product, color) {
   if (product.sizes) {
@@ -308,25 +277,7 @@ function getColorValue(product, color) {
   return "#000000"; // Default color if not found
 }
 
-// Function to set up hover effect (your existing logic)
-function setupHoverEffect(productCard) {
-  const swipe1 = productCard.querySelector("#swipe1");
-  const swipe2 = productCard.querySelector("#swipe2");
-
-  productCard.addEventListener("mouseenter", () => {
-    swipe1.style.display = "none";
-    swipe2.style.display = "block";
-  });
-  productCard.addEventListener("mouseleave", () => {
-    swipe1.style.display = "block";
-    swipe2.style.display = "none";
-  });
-}
-
 // Helper function to calculate sale price
-function calculateSalePrice(originalPrice, saleAmount) {
-  return (originalPrice * (1 - saleAmount / 100)).toFixed(2);
-}
 
 // Function to render sale items (limited to first 20)
 function renderSaleItems(products, saleContainer) {
@@ -337,7 +288,7 @@ function renderSaleItems(products, saleContainer) {
       saleItem.classList.add("product-item");
 
       const productCard = document.createElement("div");
-      productCard.classList.add("product-card");
+      productCard.classList.add("fit-content");
 
       const saleAmount = product["sale-amount"];
       const originalPrice = product["Product-Price"];
@@ -345,7 +296,7 @@ function renderSaleItems(products, saleContainer) {
 
       // Check if the product is a best seller
       const bestSellerHTML = product["bestseller"]
-        ? `<div class="best-seller" id="best-seller">bestseller<i class="bi bi-lightning-charge"></i></div>`
+        ? `<div class="best-seller" id="best-seller"><i class="bi bi-lightning-charge"></i></div>`
         : "";
       //
 
@@ -413,3 +364,8 @@ function shuffle(array) {
   }
   return array;
 }
+
+console.log(
+  "JavaScript loaded. Found items:",
+  document.querySelectorAll(".product-card-overview")
+);

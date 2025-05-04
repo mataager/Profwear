@@ -2,38 +2,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <style data-styles="">
-        ion-icon {
-            visibility: hidden
-        }
-
-        .hydrated {
-            visibility: inherit
-        }
-
-        .disabled1 {
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-    </style>
     </style>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="store-title"></title>
-
-    <!-- 
-    - favicon
-  -->
-    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
-
-    <!-- 
-    - custom css link
-  -->
+    <link rel="shortcut icon" href="./favicon.png" type="image/svg+xml">
     <link rel="stylesheet" href="./assets/css/style.css">
-
-    <!-- 
-    - google font link
-  -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link
@@ -44,24 +18,70 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="./assets/js/inithializer.js"></script>
     <script src="./assets/js/check-auth-user.js"></script>
     <script src="./assets/js/static.js"></script>
     <script src="./assets/js/search-product.js"></script>
     <script src="./assets/js/Check-available.js"></script>
     <script src="./assets/js/updateshippingfees.js"></script>
+    <script src="./assets/js/getdate.js"></script>
+    <style>
+        .swal2-actions {
+            flex-direction: column !important;
+        }
+
+        .swal2-deny {
+            padding-inline: 60px;
+            padding-block: 15px;
+            border: 1px solid #19191a;
+            border-radius: .25em;
+            background-color: #f0f0f0e0;
+            color: #19191a;
+            font-size: 1em;
+        }
+
+        /*  */
+        /* body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        body.modal-open::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.01);
+            z-index: 999;
+        }  */
+    </style>
 
 
 
 </head>
 <header class="header" data-header="">
-   <div class="header__bar">Eid Offer : Free Shipping <div class="m-x-3 hidden" id="free-shipping"></div></div>
+
+    <div class="header__bar" id="store-hints"></div>
+
+
     <div class="container">
 
         <div class="overlay" data-overlay=""></div>
 
-        <a href="./index.html" class="logo">
-            <img src="./assets/images/iicon.svg" width="160" height="50" alt="">
+
+        <a href="./index.html" class="logo store-name ">
+            PROF STORE
         </a>
+
+
+
 
         <button class="nav-open-btn" data-nav-open-btn="" aria-label="Open Menu">
             <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
@@ -74,76 +94,47 @@
             </button>
 
             <a href="#" class="logo bg-white">
-                <img src="./assets/images/iicon.svg" width="190" height="50" alt="">
+                <a href="./index.html" class="logo store-name ">
+                    King Store
+                </a>
             </a>
 
             <ul class="navbar-list">
+
                 <li class="navbar-item">
                     <a href="#" class="navbar-link" onclick="changeFrameSrc('index.html')">Home</a>
                 </li>
-                <!-- <li class="navbar-item">
-                                        <a href="#" class="navbar-link" onclick="changeFrameSrc('About.html')">About</a>
-                                    </li> -->
                 <li class="navbar-item">
-                    <div class="flex align-items justify-content-space-between">
-                        <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
-                    </div>
+                    <a href="#" class="navbar-link" onclick="changeFrameSrc('products.html')">Shop</a>
                 </li>
-                <li class="navbar-item hidden" id="megamenu" data-mega-menu>
+
+                <!-- /mega menus & brands menu/ -->
+                <li class="navbar-item" id="megamenu" data-mega-menu>
                     <div class="flex align-items justify-content-space-between">
                         <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
-                        <a id="open-category" class="rotate open-category open-category-btn"><i
-                                class="bi bi-plus"></i></a>
+                        <a id="open-category" class="rotate open-category open-category-btn">
+                            <i class="bi bi-plus"></i>
+                        </a>
                     </div>
                     <div class="mega-menu flex-direction-column" id="mega-menu">
-
+                        <!-- Products content will go here -->
                     </div>
                 </li>
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        // Select the navbar item that contains the mega menu
-                        const navbarItem = document.getElementById('megamenu');
-                        const toggleIcon = document.getElementById('open-category');
-                        const categoryHeaders = document.querySelectorAll('.menu-category h4');
 
-                        // Toggle mega menu display on click for smaller screens
-                        toggleIcon.addEventListener('click', (e) => {
-                            e.stopPropagation(); // Prevent triggering other click events
-                            navbarItem.classList.toggle('active');
+                <li class="navbar-item" id="brandsmenu" data-mega-menu>
+                    <div class="flex align-items justify-content-space-between">
+                        <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Brands</a>
+                        <a id="open-brands" class="rotate open-category open-category-btn">
+                            <i class="bi bi-plus"></i>
+                        </a>
+                    </div>
+                    <div class="mega-menu flex-direction-column" id="brands-mega-menu">
+                        <!-- Brands content will go here -->
+                    </div>
+                </li>
 
-                            // Toggle icon rotation and change icon class
-                            if (navbarItem.classList.contains('active')) {
-                                toggleIcon.classList.add('rotate-360');
-                                toggleIcon.classList.remove('rotate-back');
-                                toggleIcon.innerHTML = '<i class="bi bi-dash"></i>';
-                            } else {
-                                toggleIcon.classList.add('rotate-back');
-                                toggleIcon.classList.remove('rotate-360');
-                                toggleIcon.innerHTML = '<i class="bi bi-plus"></i>';
-                            }
-                        });
+                <!--  -->
 
-                        // Add click event listeners to all category headers (h4)
-                        categoryHeaders.forEach(header => {
-                            header.addEventListener('click', (e) => {
-                                e.stopPropagation(); // Prevent click from closing the navbar
-                                const category = header.parentElement;
-                                category.classList.toggle('active');
-                            });
-                        });
-
-                        // Close mega menu when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (!navbarItem.contains(e.target)) {
-                                navbarItem.classList.remove('active');
-                                toggleIcon.classList.remove('rotate-360');
-                                toggleIcon.classList.add('rotate-back');
-                                toggleIcon.innerHTML = '<i class="bi bi-plus"></i>';
-                            }
-                        });
-                    });
-
-                </script>
                 <li class="navbar-item">
                     <a href="#" class="navbar-link red-txt" onclick="changeFrameSrc('sale.html')">Sale</a>
                 </li>
@@ -155,8 +146,6 @@
             <ul class="nav-action-list">
 
                 <li class="li-action" id="search-li">
-
-
                 </li>
                 <li class="navbar-item li-action">
                     <button class="nav-action-btn" onclick="changeFrameSrc('Cart.html')">
@@ -166,6 +155,7 @@
                         <data id="cartItemCount" class="nav-action-badge" aria-hidden="true">0</data>
                     </button>
                 </li>
+
                 <li class="navbar-item li-action">
                     <button class="nav-action-btn" onclick="changeFrameSrc('account.html')">
                         <ion-icon name="person-outline"></ion-icon>
@@ -197,91 +187,201 @@
         <section class="section product p-0 mt-10">
             <div id="cart-card">
                 <div class="flex center flex-direction-column flex-start m-10" id="Cart">
-                    <div class="m-10 flex center">
-                        <h3>Shopping Cart</h3>
+                    <div class="m-10 flex space-evenly align-items relative">
+                        <p class="mycarttitle relative">My Cart
+                        <p class="cartitemsamount">0</p>
+                        </p>
+                        <button id="" class="cart-continueshopping-btn" onclick="changeFrameSrc('./Products.html')"><i
+                                class="bi bi-arrow-left"></i> Contniue
+                            Shopping</button>
                     </div>
-                    <div class="m-10 cart-bg  box-with-shadow flex-direction-column flex" id="cartarea">
+                    <div class="m-10 cart-bg flex-direction-column flex" id="cartarea">
                         <div class="flex center">
                             <div class="over-flow-auto mt-20">
-                                <div class="flex baseline">
-                                    <div class="flex flex-direction-column align-items">
-                                        <h5 class="flex center mb-10">Cart Items</h5>
-                                        <div class="cart-sec">
-                                            <ul class="m-10-0-20-0" id="cart-items">
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="address-sec">
-                                        <div>
-                                            <div class="mt-20">
-                                                <h5 class="flex center mb-10">Address</h5>
-
-                                                <div class="address-area" style="height: auto;">
-
-                                                    <div class="preloader2" id="preloader2">
-                                                        <div class="loader2"></div>
-                                                    </div>
-                                                    <div class="address-area" id="address-area"></div>
-
+                                <div class="cartItems-sec">
+                                    <div>
+                                        <div class="mt-20 address-area ">
+                                            <p class="flex flex-start mb-10 cart-area-divs-titels">Cart Items</p>
+                                            <div class="" style="height: auto;">
+                                                <div class="preloader3" id="">
+                                                    <div class="loader2"></div>
                                                 </div>
+                                                <ul class="m-10-0-20-0" id="cart-items">
+                                                </ul>
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+                                <!-- <div class="address-sec">
+                                    <div>
+                                        <div class="mt-20 address-area">
+                                            <div class="flex align-items justify-content-space-between mr-20">
+                                                <p class="flex flex-start mb-10 cart-area-divs-titels">Address</p>
+                                                <i class="bi bi-caret-right address-area-i"
+                                                    onclick="showandhideaddress()"></i>
                                             </div>
 
+                                            <div class="address-area-scroller">
 
 
+                                                <div class="preloader2" id="preloader2">
+                                                    <div class="loader2"></div>
+                                                </div>
+                                                <div class="address-area-div" id="address-area"></div>
+
+                                            </div>
                                         </div>
+
+
+
+                                    </div>
+                                </div> -->
+
+                                <div class="address-sec" id="address-sec">
+                                    <div>
+                                        <div class="mt-20 address-area">
+                                            <div
+                                                class="flex align-items justify-content-space-between mr-20 address-header">
+                                                <p class="flex flex-start mb-20 cart-area-divs-titels">Address</p>
+                                                <i class="bi bi-caret-right address-toggle-icon"
+                                                    onclick="showandhideaddress()"></i>
+                                            </div>
+
+                                            <div class="address-area-scroller" id="addressdiv">
+                                                <div class="preloader2" id="preloader2">
+                                                    <div class="loader2"></div>
+                                                </div>
+                                                <div class="address-area-div" id="address-area"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <style>
+
+
+                                </style>
+
+                                <script>
+                                    function showandhideaddress() {
+                                        const scroller = document.getElementById('addressdiv');
+                                        const icon = document.querySelector('.address-toggle-icon');
+
+                                        // Toggle the 'show' class
+                                        scroller.classList.toggle('show');
+
+                                        // Toggle the icon rotation
+                                        icon.classList.toggle('rotated');
+
+                                        // If we're showing the scroller, we might want to load content
+                                        if (scroller.classList.contains('show')) {
+                                            // Here you could add logic to load address content if needed
+                                            // For example:
+                                            // loadAddressContent();
+                                        }
+                                    }
+                                    function showandhidepayment() {
+                                        const scroller = document.getElementById('paymentdiv');
+                                        const icon = document.querySelector('.Payment-toggle-icon');
+
+                                        // Toggle the 'show' class
+                                        scroller.classList.toggle('show');
+
+                                        // Toggle the icon rotation
+                                        icon.classList.toggle('rotated');
+
+                                        // If we're showing the scroller, we might want to load content
+                                        if (scroller.classList.contains('show')) {
+                                            // Here you could add logic to load address content if needed
+                                            // For example:
+                                            // loadAddressContent();
+                                        }
+                                    }
+
+                                </script>
+
+
+                                <div class="flex center total-cart-div mt-20">
+                                    <div class="promo-code-section">
+                                        <div class="flex align-items justify-content-space-between mr-20">
+                                            <p class="flex flex-start mb-20 cart-area-divs-titels">Payment Options</p>
+                                            <i class="bi bi-caret-right Payment-toggle-icon"
+                                                onclick="showandhidepayment()"></i>
+                                        </div>
+
+                                        <!-- <div class="paymentdiv" id="paymentdiv">
+                                            <div class="flex center align-items payment-options-sec-div mb-10">
+                                                <button id="" class="paymentmeth-btn">Cash on Delivery</button>
+                                                <button id="" class="paymentmeth-btn ">Pay By Visa Card</button>
+                                                <button id="" class="paymentmeth-btn ">Pay By mobile wallet</button>
+                                                <button id="" class="paymentmeth-btn ">Pay By Value</button>
+                                            </div>
+                                        </div> -->
+                                        <div class="paymentdiv" id="paymentdiv">
+                                            <div class="flex center align-items payment-options-sec-div mb-10">
+                                                <button id="" class="paymentmeth-btn paymentmeth-btn-selected">Cash on
+                                                    Delivery</button>
+                                                <button id="" class="paymentmeth-btn disabled" disabled
+                                                    title="Currently unavailable">Pay By Visa Card</button>
+                                                <button id="" class="paymentmeth-btn disabled" disabled
+                                                    title="Currently unavailable">Pay By mobile
+                                                    wallet</button>
+                                                <button id="" class="paymentmeth-btn disabled" disabled
+                                                    title="Currently unavailable">Pay By Value</button>
+                                            </div>
+                                            <p class="payment-note mb-20">Note: Currently only Cash on Delivery is
+                                                available
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="flex center total-cart-div mt-20">
+                                    <div class="promo-code-section pb-30">
+                                        <p class="mb-10 cart-area-divs-titels">Promo Code</p>
+                                        <div class="flex center align-items promo-code-section-div p-30">
+                                            <input type="text" id="promo-code" class="promo-code-input"
+                                                placeholder="Enter promo code">
+                                            <button id="apply-promo" class="apply-promo-btn ml-10">Apply</button>
+                                        </div>
+                                        <div id="promo-message" class="promo-message mt-10"></div>
                                     </div>
 
                                 </div>
-                                <div class="flex center paymentandtotal">
-                                    <div class="flex center flex-direction-column payment-cart-div mt-20">
-                                        <div class="payment-section">
-                                            <h5>Payment Type</h5>
-                                            <div class="payment-options-container">
-                                                <div class="payment-options">
-                                                    <div class="payment-option selected" id="cod">
-                                                        <img src="./assets/icons/COD.jpg" alt="Cash on Delivery">
-                                                    </div>
-                                                    <div class="payment-option" id="card">
-                                                        <img src="./assets/icons/VISA.svg" alt="Card Payment">
-                                                    </div>
-                                                    <div class="payment-option" id="fawry">
-                                                        <img src="./assets/icons/Fawry.svg" alt="Fawry">
-                                                    </div>
-                                                </div>
+                                <div class="flex center total-cart-div mt-20">
+                                    <div class="flex center Cart-summary-section">
+                                        <p class="mb-10 cart-area-divs-titels">Cart Summary</p>
+                                        <div class="flex flex-start flex-direction-column align-items-flex-start p-30">
+                                            <div class="flex center align-items font-small mb-10 white-font">
+                                                <h5>Cart Total :</h5><span id="cart-total" class="ml-3"></span>
                                             </div>
-                                            <div class="pagination-dots">
-                                                <span class="dot active" data-index="0"></span>
-                                                <span class="dot" data-index="1"></span>
-                                                <span class="dot" data-index="2"></span>
+                                            <div class="flex center align-items font-small mb-10 white-font">
+                                                <h5>Shipping Fees :</h5><span id="shipping-fees-total"
+                                                    class="ml-3"></span>
+                                                <h5 id="shipping-fees" class="ml-3 hidden"></h5>
                                             </div>
-                                        </div>
 
-                                    </div>
-
-                                    <div class="flex center total-cart-div mt-20">
-                                        <h5 class="pb-30">Summary</h5>
-                                        <div class="flex center align-items font-small mb-10">
-                                            <h5>Cart Total :</h5><span id="cart-total" class="ml-3"></span>
+                                            <div class="flex center align-items font-small mb-10 white-font">
+                                                <h5>Total Price :</h5><span id="total-price" class="ml-3"></span>
+                                            </div>
+                                            <h5 class="hidden" id="total-cart-amount"></h5>
                                         </div>
-                                        <div class="flex center align-items font-small mb-10">
-                                            <h5>Shipping Fees :</h5><span id="shipping-fees-total" class="ml-3"></span>
-                                            <h5 id="shipping-fees" class="ml-3 hidden"></h5>
-                                        </div>
-                                        <div class="flex center align-items font-small mb-10">
-                                            <h5>Total Price :</h5><span id="total-price" class="ml-3"></span>
-                                        </div>
-                                        <h5 class="hidden" id="total-cart-amount"></h5>
                                     </div>
                                 </div>
+
 
                             </div>
                         </div>
-                        <div class="flex center m-30"><button id="Submit" class="Add-to-Cart"
-                                onclick="submitOrder()">Submit
-                                Order
+                        <div class="flex center m-30" id="checkoutByAccount"><button id="Submit" class="Add-to-Cart"
+                                onclick="submitOrder()">proceed to checkout
                                 <i class="bi bi-check2-all"></i>
                             </button></div>
+                        <div class="flex center m-30 hidden" id="checkoutWithoutAccount"></div>
 
 
                     </div>
@@ -557,7 +657,7 @@
                         cartList.innerHTML = `<div class="empty-cart">
     <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" alt="Empty Cart" class="empty-cart-img">
     <p class="empty-cart-text">Looks like you haven’t added anything yet.</p>
-    <a href="Products.html" class="empty-cart-btn">Start Shopping</a>
+    <button class="cart-continueshopping-btn mt-10" onclick="changeFrameSrc('./Products.html')"><i class="bi bi-arrow-left"></i> Start Shopping</button>
 </div>
 
 `;
@@ -566,8 +666,12 @@
                         cartArea.classList.add("flex", "center", "align-items");
                     }
                 });
+
+
+
+
             </script>
-            <script>
+            <!-- <script>
                 // Get elements
                 const paymentOptions = document.querySelectorAll(".payment-option");
                 const dots = document.querySelectorAll(".pagination-dots .dot");
@@ -682,11 +786,10 @@
 
                 // Initialize with the first payment option
                 updatePaymentOption(currentIndex);
-            </script>
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+            </script> -->
+
             <script src="./assets/js/submit-order.js"></script>
+
 
 
         </section>
@@ -707,9 +810,17 @@
 
     </div>
 </main>
+<div class="modal">
+    <div class="modal-content">
+
+    </div>
+</div>
 
 <a href="#top" class="go-top-btn" data-go-top="">
     <ion-icon name="arrow-up-outline" role="img" class="md hydrated" aria-label="arrow up outline"></ion-icon>
+</a>
+<a href="" class="scrolltocheckout">
+    Scroll To Check Out<i class="bi bi-arrow-down"></i>
 </a>
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -735,6 +846,17 @@
         hidePreloader(); // Hide preloader after 2 seconds
         // Fetch product details
     }, 1000);
+    document.querySelector('.scrolltocheckout').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Scroll to whichever checkout div exists first
+        const checkoutDiv = document.getElementById('checkoutByAccount') ||
+            document.getElementById('checkoutWithoutAccount');
+
+        if (checkoutDiv) {
+            checkoutDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
 </script>
 <script src="./assets/js/update-cart-amont.js"></script>
 <script src="./assets/js/route.js"></script>
@@ -742,3 +864,4 @@
 <script src="./assets/js/rendering-megamenu.js"></script>
 <script src="./assets/js/rendering-search.js"></script>
 <script src="./assets/js/cart.js"></script>
+<script src="./assets/js/animation.js"></script>

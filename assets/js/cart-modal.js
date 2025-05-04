@@ -45,155 +45,308 @@ function addToCart() {
   // Store the updated cart back to local storage
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  // Change button text and add a message using SweetAlert
   Swal.fire({
+    toast: true,
+    position: "top-end",
     icon: "success",
     title: "Added to Cart",
     showConfirmButton: false,
-    timer: 1500, // Close the alert after 1.5 seconds
+    timer: 1500,
+    timerProgressBar: true,
+    background: "#f8f9fa",
+    iconColor: "#28a745",
+    color: "#495057",
   });
 
   updateCartCount();
-
-  // Function to reload the window
-  function reloadWindow() {
-    location.reload();
-  }
 }
 
-// Function to open the cart modal with product details
+// function openCartModal(productId) {
+//   // Add class to body to prevent background scrolling
+//   document.getElementById("preloader").classList.remove("hidden");
+//   document.body.classList.add("modal-open");
+
+//   // Show preloader immediately
+//   const preloader = document.getElementById("preloader");
+//   preloader.style.display = "flex";
+
+//   // Start timer for minimum 3 seconds
+//   const minLoadTime = 1000; // 3 seconds
+//   const startTime = Date.now();
+
+//   // Fetch product details from the specific URL
+//   fetch(`${url}/Stores/${uid}/Products/${productId}.json`)
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       return response.json();
+//     })
+//     .then((product) => {
+//       // Calculate remaining time to ensure minimum 3 seconds
+//       const elapsedTime = Date.now() - startTime;
+//       const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+
+//       setTimeout(() => {
+//         // Hide preloader after minimum time has passed
+//         preloader.style.display = "none";
+
+//         // Render product details in the modal
+//         const modalContent = document.querySelector(".modal-content");
+//         const modal = document.querySelector(".modal");
+
+//         // Position modal on the right
+//         modal.style.transform = "translateX(100%)"; // Start off-screen to the right
+//         modalContent.style.position = "absolute";
+//         modalContent.style.right = "0";
+//         modalContent.style.margin = "0";
+//         modalContent.classList.add("width-70-percent");
+
+//         // Rest of your product rendering code...
+//         const saleAmount = product["sale-amount"];
+//         const originalPrice = product["Product-Price"];
+
+//         function calculateSalePrice(originalPrice, saleAmount) {
+//           return (originalPrice * (1 - saleAmount / 100)).toFixed(2);
+//         }
+
+//         let salePrice = originalPrice;
+
+//         if (saleAmount) {
+//           salePrice = calculateSalePrice(originalPrice, saleAmount);
+//         }
+
+//         modalContent.productDetails = product; // Store product details in the modal content
+
+//         // Check and set default image source if necessary
+//         setDefaultImageSource(product);
+//         modalContent.innerHTML = `
+//         <div class="flex justify-content-space-between width-available modal-header">
+//         <div class="flex center flex-end " onclick="productDetails('${productId}')">
+//           <button style="margin: 0px ;border-radius: 8px 0px 8px 0px; background: initial !important;color:#333" type="button" class="Add-to-Cart" id="perv4Button">
+//           <i class="bi bi-box-arrow-in-down-right"></i>
+//           </button>
+//       </div>
+//       <div class="flex center flex-end" onclick="closeModal()">
+//           <button style="margin: 0px ;border-radius: 0px 8px 0px 8px; background: initial !important;color:#333;" type="button" class="Add-to-Cart" id="perv4Button">
+//               <i class="bi bi-x-lg"></i>
+//           </button>
+//       </div>
+//       </div>
+//       <h5 class="m-5 pointer" id="BrandName" onclick="brand('${
+//         product["Brand-Name"]
+//       }')">${product["Brand-Name"]}</h5>
+//        <h2 class="m-5 pointer" onclick="productDetails('${productId}')" id="productTitle">${
+//           product["product-title"]
+//         }</h2>
+//       ${
+//         saleAmount
+//           ? `<del id="preprice" class="m-5 mb-10">${originalPrice}</del>`
+//           : ""
+//       }
+//       <div class="m-5 flex align-items">
+//           <p id="productPrice">${salePrice} EGP</p>
+//       </div>
+//           <div style="width:70%">
+//             <img id="productImage" class="m-5 product-image active" src="${
+//               product["product-photo"]
+//             }" alt="Product Image">
+//           </div>
+
+//           <div class="size m-5"><h3 class="m-5 flex pb-7 center align-items">Size: <p id="product-Size"></p></h3><div id="size-hint-text" style="display: none; font-size: 16px; color: #333; margin-top: 10px;"></div></div>
+//           <ul class="mt-5 flex flex-wrap">${Object.keys(product.sizes)
+//             .map(
+//               (size) =>
+//                 `<div class="size-radio m-5" onclick="SizeRef('${size}')"><label class="radio-input_option"><span class="size-value">${size}</span></label></div>`
+//             )
+//             .join("")}</ul>
+//           <div class="size m-5"><h3 class="m-5 flex pb-7 center align-items">Color: <p id="product-color"></p></h3><div id="color-hint-text" style="display: none; font-size: 16px; color: #333; margin-top: 10px;"></div></div>
+
+//           <ul id="product-colors" class="m-5 flex flex-wrap hidden"></ul>
+//           <div class="m-5 flex align-items">
+//            SKU:<p id="productID"> ${productId}</p>
+//           </div>
+//           <div class="m-5">
+//             <button id="addToCartButton" onclick="addToCart()" class="Add-to-Cart" disabled style="opacity: 0.5;">Add to Cart <i class="bi bi-exclamation-lg"></i></button>
+//           </div>
+//         `;
+
+//         // Show modal with right-to-left animation
+//         document.body.style.overflow = "hidden";
+//         modal.classList.add("show");
+//         modal.style.transform = "translateX(0)"; // Slide in from right
+
+//         // Add transition for smooth animation
+//         modal.style.transition = "transform 0.5s ease-in-out";
+
+//         // Clear size and color, then update the cart button state
+//         document.getElementById("product-Size").innerText = ""; // Clear size
+//         document.getElementById("product-color").innerText = ""; // Clear color
+//         updateAddToCartButtonState(); // Update button state
+
+//         // Close modal if clicking outside of the modal content
+//         modal.addEventListener("click", function (event) {
+//           if (!modalContent.contains(event.target)) {
+//             closeModal();
+//           }
+//         });
+//       }, remainingTime);
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching product details:", error);
+//       // Still hide preloader after minimum time even if error
+//       setTimeout(() => {
+//         preloader.style.display = "none";
+//       }, minLoadTime);
+//     });
+// }
+
+// function closeModal() {
+//   const modal = document.querySelector(".modal");
+//   document.body.style.overflow = "auto"; // Restore body overflow
+//   modal.classList.remove("show"); // Hide modal with animation
+// }
+
+// Updated JavaScript
 function openCartModal(productId) {
-  // Add class to body to prevent background scrolling
+  // Create preloader overlay if it doesn't exist
+  let preloader = document.getElementById("preloader-overlay");
+  if (!preloader) {
+    preloader = document.createElement("div");
+    preloader.id = "preloader-overlay";
+    preloader.className = "preloader-overlay";
+    preloader.innerHTML = '<div class="spinner"></div>';
+    document.body.appendChild(preloader);
+  }
+
+  preloader.classList.remove("hidden");
   document.body.classList.add("modal-open");
 
-  // Fetch product details from the specific URL
+  // Start timer for minimum 1 second
+  const minLoadTime = 1000;
+  const startTime = Date.now();
+
   fetch(`${url}/Stores/${uid}/Products/${productId}.json`)
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+      if (!response.ok) throw new Error("Network response was not ok");
       return response.json();
     })
     .then((product) => {
-      // Render product details in the modal
-      const modalContent = document.querySelector(".modal-content");
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minLoadTime - elapsedTime);
 
-      const saleAmount = product["sale-amount"];
-      const originalPrice = product["Product-Price"];
+      setTimeout(() => {
+        // Fade out preloader
+        preloader.classList.add("hidden");
 
-      function calculateSalePrice(originalPrice, saleAmount) {
-        return (originalPrice * (1 - saleAmount / 100)).toFixed(2);
-      }
+        // Prepare modal
+        const modal = document.querySelector(".modal");
+        const modalContent = document.querySelector(".modal-content");
 
-      let salePrice = originalPrice;
+        // Set modal position and styles
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden";
 
-      if (saleAmount) {
-        salePrice = calculateSalePrice(originalPrice, saleAmount);
-      }
+        // Rest of your product rendering code...
+        const saleAmount = product["sale-amount"];
+        const originalPrice = product["Product-Price"];
 
-      modalContent.productDetails = product; // Store product details in the modal content
-
-      // Check and set default image source if necessary
-      setDefaultImageSource(product);
-      modalContent.innerHTML = `
-      <div class="flex justify-content-space-between width-available modal-header">
-      <div class="flex center flex-end " onclick="productDetails('${productId}')">
-        <button style="margin: 0px ;border-radius: 8px 0px 8px 0px" type="button" class="Add-to-Cart" id="perv4Button">
-        <i class="bi bi-box-arrow-in-down-right"></i>
-        </button>
-    </div>
-    <div class="flex center flex-end" onclick="closeModal()">
-        <button style="margin: 0px ;border-radius: 0px 8px 0px 8px" type="button" class="Add-to-Cart" id="perv4Button">
-            <i class="bi bi-x-lg"></i>
-        </button>
-    </div>
-    
-    </div>
-    <h5 class="m-5 pointer" id="BrandName" onclick="brand('${
-      product["Brand-Name"]
-    }')">${product["Brand-Name"]}</h5>
-     <h2 class="m-5 pointer" onclick="productDetails('${productId}')" id="productTitle">${
-        product["product-title"]
-      }</h2>
-    ${
-      saleAmount
-        ? `<del id="preprice" class="m-5 mb-10">${originalPrice}</del>`
-        : ""
-    }
-    <div class="m-5 flex align-items">
-        <p id="productPrice">${salePrice} EGP</p>
-    </div>
-        <div class="content-photo-container">
-          <button id="previous-button" class="previous-button none-op" onclick="previousImage()">
-            <i class="bi bi-arrow-left-short arrow"></i>
-          </button>
-          <img id="productImage" class="m-5 product-image active" src="${
-            product["product-photo"]
-          }" alt="Product Image">
-          <img id="productImage2" class="m-5 product-image" src="${
-            product["product-photo2"]
-          }" alt="Product Image">
-          <img id="productImage3" class="m-5 product-image" src="${
-            product["product-photo3"]
-          }" alt="Product Image3">
-          <img id="productImage4" class="m-5 product-image" src="${
-            product["product-photo4"]
-          }" alt="Product Image4">
-          <img id="productImage5" class="m-5 product-image" src="${
-            product["product-photo5"]
-          }" alt="Product Image5">
-          <img id="productImage6" class="m-5 product-image" src="${
-            product["product-photo6"]
-          }" alt="Product Image6">
-          <button id="next-button" class="next-button none-op" onclick="nextImage()">
-            <i class="bi bi-arrow-right-short arrow"></i>
-          </button>
-        </div>
-        
-      
-        <div class="size m-5"><h3 class="m-5 flex pb-7 center align-items">Size: <p id="product-Size"></p></h3><div id="size-hint-text" style="display: none; font-size: 16px; color: #333; margin-top: 10px;"></div></div>
-        <ul class="m-5 flex">${Object.keys(product.sizes)
-          .map(
-            (size) =>
-              `<div class="size-radio m-5" onclick="SizeRef('${size}')"><label class="radio-input_option"><span class="size-value">${size}</span></label></div>`
-          )
-          .join("")}</ul>
-        <div class="size m-5"><h3 class="m-5 flex pb-7 center align-items">Color: <p id="product-color"></p></h3><div id="color-hint-text" style="display: none; font-size: 16px; color: #333; margin-top: 10px;"></div></div>
-        
-        <ul id="product-colors" class="m-5 flex flex-wrap hidden"></ul>
-        <div class="m-5 flex align-items">
-         SKU:<p id="productID"> ${productId}</p> 
-        </div>
-        <div class="m-5">
-          <button id="addToCartButton" onclick="addToCart()" class="Add-to-Cart" disabled style="opacity: 0.5;">Add to Cart <i class="bi bi-exclamation-lg"></i></button>
-        </div>
-      `;
-
-      // const modal = document.querySelector(".modal");
-      // modal.style.display = "flex";
-      const modal = document.querySelector(".modal");
-      document.body.style.overflow = "hidden"; // Hide body overflow
-      modal.classList.add("show"); // Show modal with animation
-      // Close modal if clicking outside of the modal content
-      modal.addEventListener("click", function (event) {
-        if (!modalContent.contains(event.target)) {
-          closeModal();
+        function calculateSalePrice(originalPrice, saleAmount) {
+          return (originalPrice * (1 - saleAmount / 100)).toFixed(2);
         }
-      });
-      // Clear size and color, then update the cart button state
-      document.getElementById("product-Size").innerText = ""; // Clear size
-      document.getElementById("product-color").innerText = ""; // Clear color
-      updateAddToCartButtonState(); // Update button state
+
+        let salePrice = originalPrice;
+
+        if (saleAmount) {
+          salePrice = calculateSalePrice(originalPrice, saleAmount);
+        }
+
+        modalContent.productDetails = product; // Store product details in the modal content
+
+        // Check and set default image source if necessary
+        setDefaultImageSource(product);
+
+        // Render product content
+        modalContent.innerHTML = `
+        <div class="flex justify-content-space-between width-available modal-header">
+        <div class="flex center flex-end " onclick="productDetails('${productId}')">
+          <button style="margin: 0px ;border-radius: 8px 0px 8px 0px; background: initial !important;color:#333" type="button" class="Add-to-Cart" id="perv4Button">
+          <i class="bi bi-box-arrow-in-down-right"></i>
+          </button>
+      </div>
+      <div class="flex center flex-end" onclick="closeModal()">
+          <button style="margin: 0px ;border-radius: 0px 8px 0px 8px; background: initial !important;color:#333;" type="button" class="Add-to-Cart" id="perv4Button">
+              <i class="bi bi-x-lg"></i>
+          </button>
+      </div>
+      </div>
+      <h5 class="m-5 pointer" id="BrandName" onclick="brand('${
+        product["Brand-Name"]
+      }')">${product["Brand-Name"]}</h5>
+       <h2 class="m-5 pointer" onclick="productDetails('${productId}')" id="productTitle">${
+          product["product-title"]
+        }</h2>
+      ${
+        saleAmount
+          ? `<del id="preprice" class="m-5 mb-10">${originalPrice}</del>`
+          : ""
+      }
+      <div class="m-5 flex align-items">
+          <p id="productPrice">${salePrice} EGP</p>
+      </div>
+          <div style="width:300px">
+            <img id="productImage" class="m-5 product-image width-available active" src="${
+              product["product-photo"]
+            }" alt="Product Image">
+          </div>
+
+          <div class="size m-5"><h3 class="m-5 flex pb-7 center align-items">Size: <p id="product-Size"></p></h3><div id="size-hint-text" style="display: none; font-size: 16px; color: #333; margin-top: 10px;"></div></div>
+          <ul class="mt-5 flex flex-wrap">${Object.keys(product.sizes)
+            .map(
+              (size) =>
+                `<div class="size-radio m-5" onclick="SizeRef('${size}')"><label class="radio-input_option"><span class="size-value">${size}</span></label></div>`
+            )
+            .join("")}</ul>
+          <div class="size m-5"><h3 class="m-5 flex pb-7 center align-items">Color: <p id="product-color"></p></h3><div id="color-hint-text" style="display: none; font-size: 16px; color: #333; margin-top: 10px;"></div></div>
+
+          <ul id="product-colors" class="m-5 flex flex-wrap hidden"></ul>
+          <div class="m-5 flex align-items">
+           SKU:<p id="productID"> ${productId}</p>
+          </div>
+          <div class="m-5">
+            <button id="addToCartButton" onclick="addToCart()" class="Add-to-Cart" disabled style="opacity: 0.5;">Add to Cart <i class="bi bi-exclamation-lg"></i></button>
+          </div>
+        `;
+
+        // Animate modal in from right
+        setTimeout(() => {
+          modal.classList.add("show");
+        }, 10);
+
+        // Close handler
+        modal.addEventListener("click", function (event) {
+          if (!modalContent.contains(event.target)) {
+            closeModal();
+          }
+        });
+      }, remainingTime);
     })
     .catch((error) => {
-      console.error("Error fetching product details:", error);
+      console.error("Error:", error);
+      setTimeout(() => {
+        preloader.classList.add("hidden");
+      }, minLoadTime);
     });
 }
 
 function closeModal() {
   const modal = document.querySelector(".modal");
-  document.body.style.overflow = "auto"; // Restore body overflow
-  modal.classList.remove("show"); // Hide modal with animation
+  modal.classList.remove("show");
+
+  setTimeout(() => {
+    document.body.style.overflow = "auto";
+    document.body.classList.remove("modal-open");
+  }, 400); // Match transition duration
 }
 
 function colorRef(color) {
@@ -209,11 +362,6 @@ function colorRef(color) {
     const colorDetails = product.sizes[size][color];
 
     document.getElementById("productImage").src = colorDetails.img1;
-    document.getElementById("productImage2").src = colorDetails.img2;
-    document.getElementById("productImage3").src = colorDetails.img3;
-    document.getElementById("productImage4").src = colorDetails.img4;
-    document.getElementById("productImage5").src = colorDetails.img5;
-    document.getElementById("productImage6").src = colorDetails.img6;
   }
 
   // Highlight the selected color
@@ -221,7 +369,7 @@ function colorRef(color) {
   colorOptions.forEach((option) => {
     option.style.borderBottom =
       option.dataset.colorName === color ? "5px solid #c1c1c1" : "none";
-    replaceInvalidImages();
+    // replaceInvalidImages();
   });
 
   updateAddToCartButtonState();
@@ -268,6 +416,7 @@ function updateAddToCartButtonState() {
   const sizeHintTextElement = document.getElementById("size-hint-text");
   const colorHintTextElement = document.getElementById("color-hint-text");
 
+  addToCartButton.classList.add("flex", "align-items", "gap-5");
   // Handle size hint
   if (!size) {
     if (sizeHintTextElement) {
@@ -323,21 +472,15 @@ function updateAddToCartButtonState() {
   // Enable "Add to Cart" button when both size and color are selected
   addToCartButton.disabled = false;
   addToCartButton.style.opacity = 1;
-  addToCartButton.innerHTML = 'Add to Cart <i class="bi bi-bag-check"></i>';
+  addToCartButton.innerHTML =
+    'Add to Cart <ion-icon name="cart-outline" role="img" class="md hydrated" aria-label="cart outline"></ion-icon>';
   addToCartButton.onclick = addToCart;
 }
 
 let currentIndex = 0;
 
 // Array of image element IDs
-const imageIds = [
-  "productImage",
-  "productImage2",
-  "productImage3",
-  "productImage4",
-  "productImage5",
-  "productImage6",
-];
+const imageIds = ["productImage"];
 
 // Function to show the previous image
 function previousImage() {
@@ -362,21 +505,3 @@ function nextImage() {
   // Add the "active" class to the new current image
   document.getElementById(imageIds[currentIndex]).classList.add("active");
 }
-
-//
-function replaceInvalidImages() {
-  // Select all <img> elements inside the container
-  const images = document.querySelectorAll(".content-photo-container img");
-
-  images.forEach((img) => {
-    const src = img.getAttribute("src");
-    // Check if the src is empty, "undefined", or null
-    if (!src || src === "undefined" || src.trim() === "") {
-      // Assign the placeholder image URL
-      img.src =
-        "https://i.imgur.com/gLKw3OD_d.webp?maxwidth=760&fidelity=grand";
-    }
-  });
-}
-// Call the function after the images are loaded into the DOM
-replaceInvalidImages();

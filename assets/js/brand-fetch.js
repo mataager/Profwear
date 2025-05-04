@@ -30,7 +30,7 @@ function fetchAndRenderProductsByCategoryOrBrand() {
           allData = data; // Store all product data
           filterProductsByCategoryOrBrand(categoryOrBrand); // Filter products by category or brand
           totalProducts = allProducts.length;
-          renderProducts(); // Render the filtered products
+          handleProductRendering(); // Render the filtered products
         } else {
           console.log("No products found");
         }
@@ -66,14 +66,35 @@ function renderProducts() {
   productList.innerHTML = ""; // Clear existing products from the list
 
   if (totalProducts === 0) {
-    // If no products found, display a message
-    const sortby = document.querySelector(".sort-by");
+    const Brand = getCategoryOrBrandFromUrl(); // Get category or brand from URL
+
+    // Create message container
     const noProductsMessage = document.createElement("div");
     noProductsMessage.classList.add("no-product-message-container");
-    noProductsMessage.innerHTML = `<img src="https://i.imgur.com/xonwgsq_d.webp?maxwidth=760&fidelity=grand" width=300>`;
+
+    // Create elegant message with styling
+    noProductsMessage.innerHTML = `
+        <div class="no-products-content">
+           <i class="bi bi-exclamation-diamond-fill"></i>
+            <p class="no-products-text">No ${Brand} items available in this store</p>
+            <p class="no-products-subtext">Please check back later or browse other brands</p>
+        </div>
+    `;
+
+    // Apply styles
+    noProductsMessage.style.cssText = `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 300px;
+        width: 100%;
+    `;
+
+    // Add to DOM
+    productList.innerHTML = ""; // Clear existing content
     productList.style.display = "block";
-    sortby.style.display = "none";
     productList.appendChild(noProductsMessage);
+
     return;
   }
 
@@ -117,12 +138,10 @@ function renderProducts() {
 
     const saleAmount = product["sale-amount"] || 0;
     const originalPrice = parseFloat(product["Product-Price"]);
-    const salePrice = saleAmount
-      ? (originalPrice - (originalPrice * saleAmount) / 100).toFixed(2)
-      : originalPrice;
+    const salePrice = calculateSalePrice(originalPrice, saleAmount);
     // Check if the product is a best seller
     const bestSellerHTML = product["bestseller"]
-      ? `<div class="best-seller" id="best-seller">bestseller<i class="bi bi-lightning-charge"></i></div>`
+      ? `<div class="best-seller" id="best-seller"><i class="bi bi-lightning-charge"></i></div>`
       : "";
     //
 
@@ -131,7 +150,7 @@ function renderProducts() {
 
     // Generate product card HTML
     const productCard = document.createElement("li");
-    productCard.classList.add("product-item");
+    productCard.classList.add("product-item", "animate-on-scroll");
 
     productCard.innerHTML = `
       <div class="product-card" tabindex="0">
@@ -196,6 +215,30 @@ function renderProducts() {
       openCartModal(productId);
     })
   );
+}
+
+async function handleProductRendering() {
+  try {
+    // Execute render function and wait for it to complete
+    await renderProducts();
+
+    // Add slight delay to ensure DOM is fully updated
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
+    // Modify first 4 items
+    const productItems = document.querySelectorAll(
+      ".product-item.animate-on-scroll"
+    );
+
+    productItems.forEach((item, index) => {
+      if (index < 4) {
+        item.classList.remove("animate-on-scroll");
+        item.classList.add("animate-on-scroll-auto", "show");
+      }
+    });
+  } catch (error) {
+    console.error("Error during product rendering:", error);
+  }
 }
 
 // Update pagination buttons

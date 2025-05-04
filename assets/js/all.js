@@ -22,12 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
     overlay.classList.remove("active");
   });
 
-  const elements = document.querySelectorAll("#free-shipping");
-
-  elements.forEach((element) => {
-    element.innerHTML = `${freeshipping}`;
-  });
-
   // Prevent closing the navbar when clicking inside the mega menu
   if (megaMenu) {
     megaMenu.addEventListener("click", function (event) {
@@ -97,6 +91,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+//
+// scroll to checout btn//
+
 //handle page title
 document.getElementById("store-title").innerHTML = storename;
 
@@ -106,3 +104,196 @@ function brand(brandName) {
   const encodedBrand = encodeURIComponent(brandName); // Ensure URL safety
   window.location.href = `brand.html?brand=${encodedBrand}`;
 }
+
+//infinity brands scroll
+const scrollers = document.querySelectorAll(".scroller");
+
+// If a user hasn't opted in for recuded motion, then we add the animation
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  addAnimation();
+}
+
+function addAnimation() {
+  scrollers.forEach((scroller) => {
+    // add data-animated="true" to every `.scroller` on the page
+    scroller.setAttribute("data-animated", true);
+
+    // Make an array from the elements within `.scroller-inner`
+    const scrollerInner = scroller.querySelector(".scroller__inner");
+    const scrollerContent = Array.from(scrollerInner.children);
+
+    // For each item in the array, clone it
+    // add aria-hidden to it
+    // add it into the `.scroller-inner`
+    scrollerContent.forEach((item) => {
+      const duplicatedItem = item.cloneNode(true);
+      duplicatedItem.setAttribute("aria-hidden", true);
+      scrollerInner.appendChild(duplicatedItem);
+    });
+  });
+}
+
+//
+
+function calculateSalePrice(originalPrice, saleAmount) {
+  const discountedPrice = originalPrice - originalPrice * (saleAmount / 100);
+  return Math.round(discountedPrice); // Rounds to the nearest integer (e.g., 3197.6 → 3198)
+}
+
+//using them in cart checkout page
+function removeaddressarea() {
+  const addressarea = document.getElementById("address-sec");
+  addressarea.remove();
+}
+function prepareguestbtn() {
+  const removedbtn = document.getElementById("checkoutByAccount");
+  const addedbtn = document.getElementById("checkoutWithoutAccount");
+  addedbtn.classList.remove("hidden");
+
+  if (removedbtn) removedbtn.remove();
+
+  if (addedbtn) {
+    addedbtn.innerHTML = `
+      <button id="guestSubmitorderbtn" class="Add-to-Cart">
+        Order Now As Guest
+        <i class="bi bi-check2-all"></i>
+      </button>
+    `;
+
+    // Add event listener properly
+    document
+      .getElementById("guestSubmitorderbtn")
+      .addEventListener("click", guestSubmitorder);
+  }
+}
+//
+// Configuration object for store hints
+const storeHintsConfig = {
+  currentPromos: [], // Will be populated from Firebase
+  rotationInterval: 3000, // 3 seconds rotation
+  apiUrl: `https://matager-f1f00-default-rtdb.firebaseio.com/Stores/${uid}/Promocodes.json`,
+};
+
+// DOM elements
+let hintsContainer;
+let rotationInterval;
+
+// Function to render the free shipping hint
+function renderFreeShippingHint(threshold) {
+  return `
+        <div class="store-hint">
+            <div class="flex items-center">
+                <p>Free Shipping On Orders Over</p>
+                <div class="m-x-3 highlight-shipping-amount">${threshold}</div>
+                <p>EGP</p>
+            </div>
+        </div>
+    `;
+}
+
+// Function to render a promo code hint
+function renderPromoHint(promo) {
+  return `
+        <div class="store-hint">
+            <div class="flex items-center">
+                <p>Use Promo Code:</p>
+                <div class="m-x-3 highlight-promo-code">${promo.promoName}</div>
+                <p>for ${promo.promoAmount} EGP Off</p>
+            </div>
+        </div>
+    `;
+}
+
+// Fetch promo codes from Firebase
+async function fetchPromoCodes() {
+  try {
+    const response = await fetch(storeHintsConfig.apiUrl);
+    const data = await response.json();
+
+    // Convert object to array and filter valid promos
+    storeHintsConfig.currentPromos = Object.values(data).filter(
+      (promo) => promo.promoName && promo.promoAmount
+    );
+
+    return true;
+  } catch (error) {
+    console.error("Error fetching promo codes:", error);
+    return false;
+  }
+}
+
+// Main function to render store hints
+async function renderStoreHints() {
+  hintsContainer = document.getElementById("store-hints");
+  if (!hintsContainer) return;
+
+  // Fetch promo codes first
+  await fetchPromoCodes();
+
+  // Clear existing content
+  hintsContainer.innerHTML = `
+        <div class="rotating-store-hints"></div>
+    `;
+
+  const rotatingContainer = hintsContainer.querySelector(
+    ".rotating-store-hints"
+  );
+
+  // Add free shipping hint
+  rotatingContainer.insertAdjacentHTML(
+    "beforeend",
+    renderFreeShippingHint(freeshipping)
+  );
+
+  // Add promo code hints if available
+  storeHintsConfig.currentPromos.forEach((promo) => {
+    rotatingContainer.insertAdjacentHTML("beforeend", renderPromoHint(promo));
+  });
+
+  // Start rotation if we have multiple hints
+  const hints = rotatingContainer.querySelectorAll(".store-hint");
+  if (hints.length > 1) {
+    startHintRotation(rotatingContainer);
+  } else {
+    // If only one hint, just show it
+    hints[0].style.opacity = "1";
+  }
+}
+
+// Rotation function
+function startHintRotation(container) {
+  const hints = container.querySelectorAll(".store-hint");
+  let currentIndex = 0;
+
+  // Clear any existing interval
+  if (rotationInterval) {
+    clearInterval(rotationInterval);
+  }
+
+  // Initially show first hint
+  hints[currentIndex].style.opacity = "1";
+  hints[currentIndex].style.transform = "translateY(0)";
+
+  // Set up rotation interval
+  rotationInterval = setInterval(() => {
+    // Fade out current hint
+    hints[currentIndex].style.opacity = "0";
+    hints[currentIndex].style.transform = "translateY(10px)";
+
+    // Move to next hint (with wrap-around)
+    currentIndex = (currentIndex + 1) % hints.length;
+
+    // Fade in next hint
+    hints[currentIndex].style.opacity = "1";
+    hints[currentIndex].style.transform = "translateY(0)";
+  }, storeHintsConfig.rotationInterval);
+}
+
+// Initialize the store hints when the page loads
+document.addEventListener("DOMContentLoaded", renderStoreHints);
+
+// Public function to update hints
+window.updateStoreHints = async function (newConfig) {
+  Object.assign(storeHintsConfig, newConfig);
+  await renderStoreHints();
+};

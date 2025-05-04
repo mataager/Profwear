@@ -1,184 +1,472 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="hydrated">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+    <title id="store-title"></title>
+    <link rel="shortcut icon" href="./favicon.png" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link
-        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&amp;family=Roboto:wght@400;500;700&amp;display=swap"
         rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #f5f5f5;
-            --text-color: #333;
-            --white: #ffffff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Josefin Sans', 'Roboto', sans-serif;
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            text-align: center;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 20px;
-            font-weight: 400;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: var(--white);
-            padding: clamp(20px, 5vw, 40px);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            font-weight: 600;
-            font-family: 'Josefin Sans', sans-serif;
-        }
-
-        p {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            margin-bottom: 30px;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        .countdown {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 30px 0;
-        }
-
-        .countdown-item {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 15px 10px;
-            border-radius: 5px;
-            min-width: 70px;
-            flex: 1 0 auto;
-            max-width: 100px;
-            font-family: 'Josefin Sans', sans-serif;
-        }
-
-        .countdown-number {
-            font-size: clamp(1.5rem, 6vw, 2rem);
-            font-weight: 600;
-        }
-
-        .countdown-label {
-            font-size: clamp(0.7rem, 2vw, 0.8rem);
-            opacity: 0.8;
-            text-transform: uppercase;
-            font-weight: 300;
-        }
-
-        .logo {
-            max-width: min(150px, 30vw);
-            margin-bottom: 30px;
-            height: auto;
-        }
-
-        @media (max-width: 480px) {
-            .countdown {
-                gap: 5px;
-            }
-
-            .countdown-item {
-                min-width: 60px;
-                padding: 10px 5px;
-            }
-
-            body {
-                padding: 10px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/ionicons@5.5.2/dist/css/ionicons.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="./assets/js/inithializer.js"></script>
+    <script src="./assets/js/static.js"></script>
+    <script src="./assets/js/cart-modal.js"></script>
+    <script src="./assets/js/image-error.js"></script>
+    <script src="./assets/js/fetch-free.js"></script>
+    <script src="./assets/js/search-product.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body>
-    <div class="container">
-        <img src="https://via.placeholder.com/150" alt="Logo" class="logo">
-        <h1>Coming Soon</h1>
-        <p>We're working hard to bring you something amazing. Stay tuned!</p>
+<body id="top">
 
-        <div class="countdown">
-            <div class="countdown-item">
-                <div class="countdown-number" id="days">00</div>
-                <div class="countdown-label">Days</div>
+    <div id="mainpagearea">
+
+    </div>
+    <header class="header" data-header="">
+
+        <div class="header__bar" id="store-hints"></div>
+
+
+        <div class="container">
+
+            <div class="overlay" data-overlay=""></div>
+
+
+            <a href="./index.html" class="logo store-name ">
+                PROF STORE
+            </a>
+
+
+
+
+            <button class="nav-open-btn" data-nav-open-btn="" aria-label="Open Menu">
+                <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
+            </button>
+
+            <nav class="navbar" data-navbar="">
+
+                <button class="nav-close-btn black-font" data-nav-close-btn="" aria-label="Close Menu">
+                    <ion-icon name="close-outline" role="img" class="md hydrated" aria-label="close outline"></ion-icon>
+                </button>
+
+                <a href="#" class="logo bg-white">
+                    <a href="./index.html" class="logo store-name ">
+                        King Store
+                    </a>
+                </a>
+
+                <ul class="navbar-list">
+
+                    <li class="navbar-item">
+                        <a href="#" class="navbar-link" onclick="changeFrameSrc('index.html')">Home</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="#" class="navbar-link" onclick="changeFrameSrc('products.html')">Shop</a>
+                    </li>
+
+                    <!-- /mega menus & brands menu/ -->
+                    <li class="navbar-item" id="megamenu" data-mega-menu>
+                        <div class="flex align-items justify-content-space-between">
+                            <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
+                            <a id="open-category" class="rotate open-category open-category-btn">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        </div>
+                        <div class="mega-menu flex-direction-column" id="mega-menu">
+                            <!-- Products content will go here -->
+                        </div>
+                    </li>
+
+                    <li class="navbar-item" id="brandsmenu" data-mega-menu>
+                        <div class="flex align-items justify-content-space-between">
+                            <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Brands</a>
+                            <a id="open-brands" class="rotate open-category open-category-btn">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        </div>
+                        <div class="mega-menu flex-direction-column" id="brands-mega-menu">
+                            <!-- Brands content will go here -->
+                        </div>
+                    </li>
+
+                    <!--  -->
+
+                    <li class="navbar-item">
+                        <a href="#" class="navbar-link red-txt" onclick="changeFrameSrc('sale.html')">Sale</a>
+                    </li>
+
+                    <li class="navbar-item">
+                        <a href="#" class="navbar-link" onclick="changeFrameSrc('Contact.html')">Contact</a>
+                    </li>
+                </ul>
+                <ul class="nav-action-list">
+
+                    <li class="li-action" id="search-li">
+                    </li>
+                    <li class="navbar-item li-action">
+                        <button class="nav-action-btn" onclick="changeFrameSrc('Cart.html')">
+                            <ion-icon name="bag-outline" aria-hidden="true" role="img" class="md hydrated"></ion-icon>
+                            <data class="nav-action-text">Basket: <strong class="cart-amount" id="cart-amount">0
+                                    E£</strong></data>
+                            <data id="cartItemCount" class="nav-action-badge" aria-hidden="true">0</data>
+                        </button>
+                    </li>
+
+                    <li class="navbar-item li-action">
+                        <button class="nav-action-btn" onclick="changeFrameSrc('account.html')">
+                            <ion-icon name="person-outline"></ion-icon>
+                            <span class="nav-action-text">Account</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-action-btn hidden">
+                            <ion-icon name="heart-outline" aria-hidden="true" role="img" class="md hydrated"></ion-icon>
+
+                            <span class="nav-action-text">Wishlist</span>
+
+                            <data class="nav-action-badge" value="5" aria-hidden="true">5</data>
+                        </button>
+                    </li>
+                </ul>
+
+            </nav>
+
+        </div>
+    </header>
+    <div>
+        <div class="preloader" id="preloader">
+            <img src="favicon.png" alt="Your Image" width="40" height="40">
+            <div class="loader"></div>
+        </div>
+        <article id="mainpage">
+
+            <section class="prof-hero-section" id="prof-hero">
+                <div class="prof-hero-overlay"></div>
+                <div class="container">
+                    <div class="prof-hero-content">
+                        <h1 class="prof-hero-title">
+                            <span class="prof-hero-brand animate-delay-1">PROF WEAR</span>
+                            <span class="prof-hero-subtitle animate-delay-2">COUTURE 2025 COLLECTION</span>
+                        </h1>
+
+                        <h2 class="prof-hero-main-title animate-delay-3">
+                            REFINED <span class="prof-accent">DRIP</span> FOR THE <br>MODERN ARISTOCRAT
+                        </h2>
+
+                        <p class="prof-hero-text animate-delay-4">
+                            Where streetwear meets sophistication. Handcrafted luxury pieces for those who command
+                            attention
+                            without
+                            saying a word.
+                        </p>
+
+                        <div class="prof-hero-cta animate-delay-5">
+                            <a href="./Products.html" class="prof-btn-explore">
+                                <span>EXPLORE THE COLLECTION</span>
+                                <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                            </a>
+
+                            <div class="prof-exclusive-badge pointer" onclick="changeFrameSrc('./sale.html')">
+                                <span>DISCOVER SALE COLLECTION</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <script>
+                // Improved animation trigger
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Wait for everything to load
+                    setTimeout(function () {
+                        const heroSection = document.getElementById('prof-hero');
+                        if (heroSection) {
+                            heroSection.classList.add('animate-in');
+                        } else {
+                            console.warn("Hero section element not found");
+                        }
+                    }, 500); // Slightly longer delay to ensure everything is ready
+                });
+
+                // Alternative Intersection Observer approach (more modern)
+                function initHeroAnimations() {
+                    const heroSection = document.getElementById('prof-hero');
+                    if (!heroSection) return;
+
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('animate-in');
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.1 });
+
+                    observer.observe(heroSection);
+                }
+
+                // Call either method (choose one)
+                window.addEventListener('load', initHeroAnimations);
+                // OR use the DOMContentLoaded version above
+            </script>
+
+            <section class="section product animate-on-scroll">
+                <div class="container">
+
+                    <h2 class="h2 section-title mb-40">FEATURED PRODUCTS</h2>
+
+
+
+                    <ul class="product-overview">
+
+
+
+                    </ul>
+
+                    <div class="flex center align-items m-50 animate-on-scroll">
+                        <button id="more_product" class="cus-btn show-all-btn " onclick="more_product()">Show All
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+
+
+
+
+
+                </div>
+            </section>
+
+
+            <section class="section special new-arri animate-on-scroll">
+                <div class="container scroll-trigger" id="new-arrival-trigger">
+
+                    <div class="special-banner center" id="new-arrival-img">
+                        <h2 id="new-arrival-title" class="h3 banner-title"></h2>
+                    </div>
+
+                    <div class="special-product animate-on-scroll">
+
+                        <h2 class="h2 section-title">
+                            <span class="text">NEW ARRIVALS</span>
+
+                            <span class="line"></span>
+                        </h2>
+
+                        <ul class="has-scrollbar" id="NewArrivalls">
+
+
+
+
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </section>
+
+
+            <section class="section special sales-div animate-on-scroll">
+                <div class="container flex-direction-row-rev">
+
+                    <div class="special-banner center" id="sale-img">
+                        <h2 id="Sale-title" class="h3 banner-title"></h2>
+
+
+                    </div>
+
+                    <div class="special-product animate-on-scroll">
+
+                        <h2 class="h2 section-title flex-direction-row-rev">
+                            <span class="text">SALE</span>
+
+                            <span class="line"></span>
+                        </h2>
+
+                        <ul class="has-scrollbar flex-direction-row-rev" id="Sale">
+
+
+
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </section>
+            <div class="sale-animation-bar animate-on-scroll">
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+                <span class="sale-animation-txt-reversed">SALE</span>
+
+
+                <!-- Duplicate for continuous effect -->
             </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="hours">00</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="minutes">00</div>
-                <div class="countdown-label">Minutes</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="seconds">00</div>
-                <div class="countdown-label">Seconds</div>
-            </div>
+
+
+        </article>
+    </div>
+    <div class="modal">
+
+        <div class="modal-content">
+
         </div>
 
-        <p>Launching on April 5, 2025</p>
+
     </div>
+    <footer class="footer animate-on-scroll">
 
-    <script>
-        // Set the date we're counting down to (May 5, 2025)
-        const countDownDate = new Date("May 5, 2025 00:00:00").getTime();
+        <div class="footer-top section">
+            <div class="container">
 
-        // Update the countdown every 1 second
-        const countdown = setInterval(function () {
-            // Get today's date and time
-            const now = new Date().getTime();
+                <div class="footer-brand">
 
-            // Find the distance between now and the countdown date
-            const distance = countDownDate - now;
+                    <a href="#" class="logo">
+                        <img src="./assets/images/iicon.svg" width="160" height="50" alt="">
+                    </a>
 
-            // Time calculations for days, hours, minutes and seconds
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    <ul class="social-list hidden">
 
-            // Display the result
-            document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
-            document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-facebook" role="img" class="md hydrated"
+                                    aria-label="logo facebook"></ion-icon>
+                            </a>
+                        </li>
 
-            // If the countdown is finished, display a message
-            if (distance < 0) {
-                clearInterval(countdown);
-                document.getElementById("days").innerHTML = "00";
-                document.getElementById("hours").innerHTML = "00";
-                document.getElementById("minutes").innerHTML = "00";
-                document.getElementById("seconds").innerHTML = "00";
-                document.querySelector("h1").innerHTML = "We're Live!";
-                document.querySelector("p:nth-of-type(1)").innerHTML = "Our website is now available. Thank you for your patience!";
-                document.querySelector("p:nth-of-type(2)").style.display = "none";
-            }
-        }, 1000);
-    </script>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-twitter" role="img" class="md hydrated"
+                                    aria-label="logo twitter"></ion-icon>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-pinterest" role="img" class="md hydrated"
+                                    aria-label="logo pinterest"></ion-icon>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-linkedin" role="img" class="md hydrated"
+                                    aria-label="logo linkedin"></ion-icon>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="footer-end flex space-around">
+
+                    <ul class="footer-list">
+
+                        <li class="animate-on-scroll">
+                            <p class="footer-list-title">Contact Us</p>
+                        </li>
+
+                        <li class="animate-on-scroll">
+                            <address class="footer-link hidden">
+                                <ion-icon name="location" role="img" class="md hydrated"
+                                    aria-label="location"></ion-icon>
+
+                                <span class="footer-link-text">
+                                    type any addrress
+                                </span>
+                            </address>
+                        </li>
+
+                        <li class="animate-on-scroll">
+                            <a href="tel:" id="store-call" class="footer-link">
+                                <ion-icon name="call" role="img" class="md hydrated" aria-label="call"></ion-icon>
+                                <span id="store-number" class="footer-link-text"></span>
+                            </a>
+                        </li>
+
+                        <li class="animate-on-scroll">
+                            <a href="mailto:" id="store-email-link" class="footer-link">
+                                <ion-icon name="mail" role="img" class="md hydrated" aria-label="mail"></ion-icon>
+                                <span id="store-email" class="footer-link-text"></span>
+                            </a>
+                        </li>
+
+                        <li class="animate-on-scroll">
+                            <a href="#" class="footer-link" id="report-bug-btn">
+                                <ion-icon name="bug"></ion-icon>
+                                <span class="footer-link-text">Report a problem or a bug</span>
+                            </a>
+                        </li>
+                    </ul>
+
+
+                    <ul class="footer-list animate-on-scroll">
+                        <p class="footer-list-title animate-on-scroll">Matager</p>
+                        <li>
+                            <a href="https://matager.online/PrivacyPolicy.html" class="footer-link">
+                                <span class="footer-link-text">privacy policy</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://matager.online/Termsofservice.html" class="footer-link">
+                                <span class="footer-link-text">Terms of service</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="flex center">
+            <a href="https://matager.online" target="_blank">
+                <img src="./assets/images/powerd by matager black.svg" width="100px">
+            </a>
+        </div>
+
+
+
+    </footer>
+    <a href="#top" class="go-top-btn" data-go-top="">
+        <ion-icon name="arrow-up-outline" role="img" class="md hydrated" aria-label="arrow up outline"></ion-icon>
+    </a>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="./assets/js/store-contact.js"></script>
+    <script src="./assets/js/store-static-img.js"></script>
+    <script src="./assets/js/flip-img.js"></script>
+    <script src="./assets/js/report.js"></script>
+    <script src="./assets/js/update-cart-amont.js"></script>
+    <script src="./assets/js/route.js"></script>
+    <script src="./assets/js/all.js"></script>
+    <script src="./assets/js/rendering-megamenu.js"></script>
+    <script src="./assets/js/rendering-collections.js"></script>
+    <script src="./assets/js/rendering-search.js"></script>
+    <script src="./assets/js/addfavouriteproduct.js"></script>
+    <script defer src="./assets/js/animation.js"></script>
 </body>
 
 </html>

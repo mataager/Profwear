@@ -20,7 +20,7 @@ function fetchAndRenderProducts() {
         allData = data;
         allProducts = Object.keys(data).reverse(); // Reverse the product keys to sort from end to first
         totalProducts = allProducts.length;
-        renderProducts(); // Call renderProducts here after setting allData and allProducts
+        return handleProductRendering();
       } else {
         console.log("No products found");
       }
@@ -29,7 +29,6 @@ function fetchAndRenderProducts() {
       console.error("Error fetching data:", error);
     });
 }
-
 function renderProducts() {
   const productList = document.querySelector(".product-list");
   productList.innerHTML = ""; // Clear existing products from the list
@@ -42,7 +41,7 @@ function renderProducts() {
   productKeys.forEach((key) => {
     const product = allData[key];
     const productCard = document.createElement("li");
-    productCard.classList.add("product-item");
+    productCard.classList.add("product-item", "animate-on-scroll");
 
     // Get colors for all sizes if sizes property exists
     const allColors = new Set();
@@ -84,17 +83,16 @@ function renderProducts() {
     const saleAmount = product["sale-amount"];
     const originalPrice = product["Product-Price"];
 
-    function calculateSalePrice(originalPrice, saleAmount) {
-      // Ensure originalPrice and saleAmount are integers
-      const intOriginalPrice = Math.floor(originalPrice);
-      const intSaleAmount = Math.floor(saleAmount);
+    //   // Ensure originalPrice and saleAmount are integers
+    //   const intOriginalPrice = Math.floor(originalPrice);
+    //   const intSaleAmount = Math.floor(saleAmount);
 
-      // Calculate sale price
-      const salePrice = intOriginalPrice * (1 - intSaleAmount / 100);
+    //   // Calculate sale price
+    //   const salePrice = intOriginalPrice * (1 - intSaleAmount / 100);
 
-      // Return the integer part of the sale price
-      return Math.floor(salePrice);
-    }
+    //   // Return the integer part of the sale price
+    //   return Math.floor(salePrice);
+    // }
 
     // Check and set default image source if necessary
     setDefaultImageSource(product);
@@ -103,7 +101,7 @@ function renderProducts() {
 
     // Check if the product is a best seller
     const bestSellerHTML = product["bestseller"]
-      ? `<div class="best-seller" id="best-seller">bestseller<i class="bi bi-lightning-charge"></i></div>`
+      ? `<div class="best-seller" id="best-seller"><i class="bi bi-lightning-charge"></i></div>`
       : "";
     //
 
@@ -184,14 +182,34 @@ function renderProducts() {
     })
   );
 }
+async function handleProductRendering() {
+  try {
+    // Execute render function and wait for it to complete
+    await renderProducts();
 
+    // Add slight delay to ensure DOM is fully updated
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
+    // Modify first 4 items
+    const productItems = document.querySelectorAll(
+      ".product-item.animate-on-scroll"
+    );
+
+    productItems.forEach((item, index) => {
+      if (index < 4) {
+        item.classList.remove("animate-on-scroll");
+        item.classList.add("animate-on-scroll-auto", "show");
+      }
+    });
+  } catch (error) {
+    console.error("Error during product rendering:", error);
+  }
+}
 function updatePaginationButtons() {
   document.getElementById("prevPageBtn").disabled = currentPage === 1;
   document.getElementById("nextPageBtn").disabled =
     currentPage * itemsPerPage >= totalProducts;
 }
-
-// Function to set up hover effect
 function setupHoverEffect(productCard) {
   const swipe1 = productCard.querySelector("#swipe1");
   const swipe2 = productCard.querySelector("#swipe2");
@@ -205,22 +223,16 @@ function setupHoverEffect(productCard) {
     swipe2.style.display = "none";
   });
 }
-
-// Function to handle "Next" button click event
 document.getElementById("nextPageBtn").addEventListener("click", () => {
   const productList = document.querySelector(".product-list");
   currentPage++;
   productList.scrollIntoView({ behavior: "smooth", block: "start" }); // Scroll to the top of the product list
   renderProducts(); // Render products for the next page
 });
-
-// Function to handle "Previous" button click event
 document.getElementById("prevPageBtn").addEventListener("click", () => {
   const productList = document.querySelector(".product-list");
   currentPage = Math.max(1, currentPage - 1);
   productList.scrollIntoView({ behavior: "smooth", block: "start" }); // Scroll to the top of the product list
   renderProducts(); // Render products for the previous page
 });
-
-// Fetch and render products on page load
 fetchAndRenderProducts();

@@ -1,18 +1,9 @@
 <head>
     <meta charset="UTF-8">
-    <style data-styles="">
-        ion-icon {
-            visibility: hidden
-        }
-
-        .hydrated {
-            visibility: inherit
-        }
-    </style>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="store-title"></title>
-    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="./favicon.png" type="image/svg+xml">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -21,13 +12,15 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="./assets/js/inithializer.js"></script>
     <script src="./assets/js/static.js"></script>
     <script src="./assets/js/search-product.js"></script>
     <script src="./assets/jq/jquery.js"></script>
     <script src="./assets/js/image-error.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
 </head>
 
 <div class="preloader" id="preloader">
@@ -36,14 +29,21 @@
 </div>
 <article>
     <header class="header" data-header="">
-        <div class="header__bar">Eid Offer : Free Shipping <div class="m-x-3 hidden" id="free-shipping"></div></div>
+
+        <div class="header__bar" id="store-hints"></div>
+
+
         <div class="container">
 
             <div class="overlay" data-overlay=""></div>
 
-            <a href="./index.html" class="logo">
-                <img src="./assets/images/iicon.svg" width="160" height="50" alt="">
+
+            <a href="./index.html" class="logo store-name ">
+                PROF STORE
             </a>
+
+
+
 
             <button class="nav-open-btn" data-nav-open-btn="" aria-label="Open Menu">
                 <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
@@ -56,76 +56,47 @@
                 </button>
 
                 <a href="#" class="logo bg-white">
-                    <img src="./assets/images/iicon.svg" width="190" height="50" alt="">
+                    <a href="./index.html" class="logo store-name ">
+                        King Store
+                    </a>
                 </a>
 
                 <ul class="navbar-list">
+
                     <li class="navbar-item">
                         <a href="#" class="navbar-link" onclick="changeFrameSrc('index.html')">Home</a>
                     </li>
-                    <!-- <li class="navbar-item">
-                                            <a href="#" class="navbar-link" onclick="changeFrameSrc('About.html')">About</a>
-                                        </li> -->
                     <li class="navbar-item">
-                        <div class="flex align-items justify-content-space-between">
-                            <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
-                        </div>
+                        <a href="#" class="navbar-link" onclick="changeFrameSrc('products.html')">Shop</a>
                     </li>
-                    <li class="navbar-item hidden" id="megamenu" data-mega-menu>
+
+                    <!-- /mega menus & brands menu/ -->
+                    <li class="navbar-item" id="megamenu" data-mega-menu>
                         <div class="flex align-items justify-content-space-between">
                             <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
-                            <a id="open-category" class="rotate open-category open-category-btn"><i
-                                    class="bi bi-plus"></i></a>
+                            <a id="open-category" class="rotate open-category open-category-btn">
+                                <i class="bi bi-plus"></i>
+                            </a>
                         </div>
                         <div class="mega-menu flex-direction-column" id="mega-menu">
-
+                            <!-- Products content will go here -->
                         </div>
                     </li>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', () => {
-                            // Select the navbar item that contains the mega menu
-                            const navbarItem = document.getElementById('megamenu');
-                            const toggleIcon = document.getElementById('open-category');
-                            const categoryHeaders = document.querySelectorAll('.menu-category h4');
 
-                            // Toggle mega menu display on click for smaller screens
-                            toggleIcon.addEventListener('click', (e) => {
-                                e.stopPropagation(); // Prevent triggering other click events
-                                navbarItem.classList.toggle('active');
+                    <li class="navbar-item" id="brandsmenu" data-mega-menu>
+                        <div class="flex align-items justify-content-space-between">
+                            <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Brands</a>
+                            <a id="open-brands" class="rotate open-category open-category-btn">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        </div>
+                        <div class="mega-menu flex-direction-column" id="brands-mega-menu">
+                            <!-- Brands content will go here -->
+                        </div>
+                    </li>
 
-                                // Toggle icon rotation and change icon class
-                                if (navbarItem.classList.contains('active')) {
-                                    toggleIcon.classList.add('rotate-360');
-                                    toggleIcon.classList.remove('rotate-back');
-                                    toggleIcon.innerHTML = '<i class="bi bi-dash"></i>';
-                                } else {
-                                    toggleIcon.classList.add('rotate-back');
-                                    toggleIcon.classList.remove('rotate-360');
-                                    toggleIcon.innerHTML = '<i class="bi bi-plus"></i>';
-                                }
-                            });
+                    <!--  -->
 
-                            // Add click event listeners to all category headers (h4)
-                            categoryHeaders.forEach(header => {
-                                header.addEventListener('click', (e) => {
-                                    e.stopPropagation(); // Prevent click from closing the navbar
-                                    const category = header.parentElement;
-                                    category.classList.toggle('active');
-                                });
-                            });
-
-                            // Close mega menu when clicking outside
-                            document.addEventListener('click', (e) => {
-                                if (!navbarItem.contains(e.target)) {
-                                    navbarItem.classList.remove('active');
-                                    toggleIcon.classList.remove('rotate-360');
-                                    toggleIcon.classList.add('rotate-back');
-                                    toggleIcon.innerHTML = '<i class="bi bi-plus"></i>';
-                                }
-                            });
-                        });
-
-                    </script>
                     <li class="navbar-item">
                         <a href="#" class="navbar-link red-txt" onclick="changeFrameSrc('sale.html')">Sale</a>
                     </li>
@@ -137,8 +108,6 @@
                 <ul class="nav-action-list">
 
                     <li class="li-action" id="search-li">
-
-
                     </li>
                     <li class="navbar-item li-action">
                         <button class="nav-action-btn" onclick="changeFrameSrc('Cart.html')">
@@ -148,6 +117,7 @@
                             <data id="cartItemCount" class="nav-action-badge" aria-hidden="true">0</data>
                         </button>
                     </li>
+
                     <li class="navbar-item li-action">
                         <button class="nav-action-btn" onclick="changeFrameSrc('account.html')">
                             <ion-icon name="person-outline"></ion-icon>
@@ -172,15 +142,19 @@
 
     <section class="section product">
         <div class="container pt-10">
-            <div class="flex align-items justify-content-space-between">
+            <div class="flex align-items justify-content-space-between bar7t83">
                 <div class="flex align-items section-title">
-                    <h5 class="grey pointer" onclick="changeFrameSrc('index.html')">Home/</h5>
+                    <h5 class="grey pointer" onclick="changeFrameSrc('index.html')">Home</h5>/
                     <h5 class="grey">Category</h5>/
                     <h5 id="category-title"></h5>
                 </div>
 
                 <div class="filter-container flex center">
-                    <button id="filterBtn" class="filter-btn">Filters <i class="bi bi-funnel-fill"></i></button>
+                    <div>
+                        <button id="filterBtn" class="filter-btn">Filters <i class="bi bi-funnel-fill"></i></button>
+
+                    </div>
+
                     <div id="sidebar" class="filter-sidebar">
 
                     </div>
