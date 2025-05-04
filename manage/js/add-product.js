@@ -30,18 +30,18 @@ document.getElementById("add-more").addEventListener("click", function () {
         <i class="bi bi-arrows-angle-contract"></i>
         <i class="bi bi-arrows-angle-expand none"></i>
       </button>
-      <button type="button" style="border: none; margin-left:5px;margin-bottom:0px;" class="formbold-form-label point toggle-duplicate cus-btn">
+      <button title="duplicate this item" type="button" style="border: none; margin-left:5px;margin-bottom:0px;" class="formbold-form-label point toggle-duplicate cus-btn">
         <i class="bi bi-copy"></i>
       </button>
       <button type="button" style="border: none; margin-left:auto" class="point no-bg-i toggle-delete ml-auto cus-btn">
         <i class="bi bi-x-lg"></i>
       </button>
       <div class="flex center align-items ml-auto">
-        <h5 class="none mr-3" id="Quantity">Quantity</h5>
+        <h5 class="none mr-3" id="Quantity">Qty:</h5>
         <h5 class="none" id="QuantityValue"></h5>
       </div>
       <div class="flex center align-items ml-auto">
-        <h5 class="none mr-3" id="size">Size</h5>
+        <h5 class="none mr-3" id="size">Size:</h5>
         <h5 class="none" id="sizevalue"></h5>
       </div>
       <div class="flex center align-items ml-auto">
@@ -49,12 +49,41 @@ document.getElementById("add-more").addEventListener("click", function () {
         <h5 class="none color-value" id="colorvalue"></h5>
       </div>
     </div>
-    <div class="product-data" id="product-data">
-      <div class="flex mb-10">
-        <input id="size${count}" type="text" name="size" placeholder="Size" class="formbold-form-input m-LR-2">
-        <input id="quantity${count}" value="1" type="text" name="quantity" placeholder="Quantity" class="formbold-form-input m-LR-2">
+    <div class="product-data" style="max-height: 1300px; opacity: 1; padding: 10px 0px;"  id="product-data">
+      <div class="flex mb-10 minline-140 p5 center align-items gap-10 align-flex-start-SQ">
+
+<div class="input-group flex column">
+    <label class="font-sm m510" for="size${count}">Size</label>
+    <div class="input-with-buttons column">
+        <input id="size${count}" type="text" name="size" placeholder="Size" class="formbold-form-input m-LR-2 max-150 " value="0">
+        <div class="flex gap-20 mt-20">
+        <button type="button" class="decrement-btn" onclick="decrement('size${count}')"><i class="bi bi-dash-circle"></i></button>
+        <button type="button" class="increment-btn" onclick="increment('size${count}')"><i class="bi bi-plus-circle"></i></button>
+        <button type="button" class="duplicatePlus-btn" onclick="duplicatePlus('size${count}')">
+            <i class="bi bi-chevron-double-down"></i>
+        </button>
+        <button type="button" class="duplicatePlus-btn" onclick="duplicateInRange('size${count}')">
+            <i class="bi bi-collection"></i>
+        </button>
+        </div>
+    </div>
+</div>
+
+<div class="input-group flex column">
+    <label class="font-sm m510" for="quantity${count}">Quantity</label>
+    <div class="input-with-buttons">
+        <input id="quantity${count}" type="text" name="quantity" placeholder="Quantity" class="formbold-form-input m-LR-2 max-200" value="3">
+         <div class="flex column gap-10">
+        <button type="button" class="decrement-btn" onclick="decrement('quantity${count}')"><i class="bi bi-dash-circle"></i></button>
+        <button type="button" class="increment-btn" onclick="increment('quantity${count}')"><i class="bi bi-plus-circle"></i></button>
+        </div>
+    </div>
+</div>
       </div>
-      <div class="flex flex-wrap mb-3">
+      <div class="flex center">
+      <button type="button" class="show-img-url" onclick="toggleImageInputs(${count})">Show Images Urls <i class="bi bi-eye-fill"></i></button>
+      </div>
+      <div class="flex flex-wrap mb-3 imgids" id="image-inputs-${count}">
         <input type="text" id="img1_${count}" name="product-photo" placeholder="pic url 1" class="formbold-form-input m-LR-2 mb-10">
         <input type="text" id="img2_${count}" name="product-photo2" placeholder="pic url 2" class="formbold-form-input m-LR-2 mb-10">
         <input type="text" id="img3_${count}" name="product-photo3" placeholder="pic url 3" class="formbold-form-input m-LR-2 mb-10">
@@ -62,47 +91,60 @@ document.getElementById("add-more").addEventListener("click", function () {
         <input type="text" id="img5_${count}" name="product-photo5" placeholder="pic url 5" class="formbold-form-input m-LR-2 mb-10">
         <input type="text" id="img6_${count}" name="product-photo6" placeholder="pic url 6" class="formbold-form-input m-LR-2 mb-10">
       </div>
+
       <div class="flex flex-wrap center mb-3">
-        <div class="flex flex-column align-items">
-        
+        <div class="flex flex-column align-items relative">
+
           <div class="drop-zone" id="dropZone1_${count}" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(event, this)" ondrop="handleDrop(event, this)"> <div class="flex flex-column"><i class="bi bi-cloud-arrow-up"></i></i>Click Or Drop Image Here</div></div>
           <div id="uploadStatus1_${count}"></div>
         </div>
-        <div class="flex flex-column align-items">
-          
+        <div class="flex flex-column align-items relative">
+
           <div class="drop-zone" id="dropZone2_${count}" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(event, this)" ondrop="handleDrop(event, this)"> <div class="flex flex-column"><i class="bi bi-cloud-arrow-up"></i>Click Or Drop Image Here</div></div>
           <div id="uploadStatus2_${count}"></div>
         </div>
-        <div class="flex flex-column align-items">
-          
+        <div class="flex flex-column align-items relative">
+
           <div class="drop-zone" id="dropZone3_${count}" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(event, this)" ondrop="handleDrop(event, this)"> <div class="flex flex-column"><i class="bi bi-cloud-arrow-up"></i>Click Or Drop Image Here</div></div>
           <div id="uploadStatus3_${count}"></div>
         </div>
-         <div class="flex flex-column align-items">
-          
+         <div class="flex flex-column align-items relative">
+
           <div class="drop-zone" id="dropZone4_${count}" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(event, this)" ondrop="handleDrop(event, this)"> <div class="flex flex-column"><i class="bi bi-cloud-arrow-up"></i>Click Or Drop Image Here</div></div>
           <div id="uploadStatus4_${count}"></div>
         </div>
-         <div class="flex flex-column align-items">
-          
+         <div class="flex flex-column align-items relative">
+
           <div class="drop-zone" id="dropZone5_${count}" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(event, this)" ondrop="handleDrop(event, this)"> <div class="flex flex-column"><i class="bi bi-cloud-arrow-up"></i>Click Or Drop Image Here</div></div>
           <div id="uploadStatus5_${count}"></div>
         </div>
-         <div class="flex flex-column align-items">
-          
+         <div class="flex flex-column align-items relative">
+
           <div class="drop-zone" id="dropZone6_${count}" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(event, this)" ondrop="handleDrop(event, this)"> <div class="flex flex-column"><i class="bi bi-cloud-arrow-up"></i>Click Or Drop Image Here</div></div>
           <div id="uploadStatus6_${count}"></div>
+        </div>
+        <div class="flex flex-column align-items relative">
+
+          <div class="drop-zone" id="adddropzone_${count}"> <div class="flex flex-column"><i class="bi bi-plus"></i>Add More Image</div></div>
+
         </div>
       </div>
       <div id="imageContainer"></div>
       <div class="flex center mb-3 mt-12">
         <div class="color-input-wrapper m-LR-2">
           <div class="flex center align-items">
-            <input style="width:45px;" type="text" name="color" class="formbold-form-input">
+            <input id="Colorbg${count}" style="width:45px;" type="text" name="color" class="formbold-form-input">
             <input id="Color${count}" type="color" name="color-value" class="color-picker">
+            <input type="file" id="imageInput${count}" accept="image/png, image/jpeg" style="display: none;">
+          </div>
+          <div class="flex column align-items">
+          <div class="change-ctib hidden" id="change-ctib-${count}" title="change color as image"> <i class="bi bi-images"></i></div>
+          <div class="rtc-ctib" id="ReturnToColor-ctib-${count}" title="save image as color"style="top: 22px;"><i class="bi bi-arrow-left-right"></i></div>
+
           </div>
         </div>
-        <input id="colorname${count}" type="text" name="color-name" style="width: 50%;" placeholder="Black" class="formbold-form-input m-LR-2">
+
+        <input id="colorname${count}" type="text" name="color-name" style="width: 150px;" placeholder="Black" class="formbold-form-input m-LR-2">
       </div>
       <input type="file" id="cameraInput1_${count}" accept="image/*" capture="camera" style="display: none;">
       <input type="file" id="galleryInput1_${count}" accept="image/*" style="display: none;">
@@ -116,11 +158,27 @@ document.getElementById("add-more").addEventListener("click", function () {
       <input type="file" id="galleryInput5_${count}" accept="image/*" style="display: none;">
       <input type="file" id="cameraInput6_${count}" accept="image/*" capture="camera" style="display: none;">
       <input type="file" id="galleryInput6_${count}" accept="image/*" style="display: none;">
-      
+
     </div>
   `;
+  // Call the reusable function to set up image upload
+  setupImageUpload(newInputSet, count);
+  // Set initial state for animation
+  newInputSet.style.opacity = "0";
+  newInputSet.style.transform = "translateY(-20px)";
+  newInputSet.style.transition =
+    "opacity 0.4s ease-out, transform 0.4s ease-out";
 
   inputContainer.appendChild(newInputSet);
+
+  // Call the external function to set up the click handler for rtc-ctib
+  setupRtcCtibClickHandler(count);
+
+  // Trigger the transition after appending
+  setTimeout(() => {
+    newInputSet.style.opacity = "1";
+    newInputSet.style.transform = "translateY(0)";
+  }, 10);
   setupToggleExpand(newInputSet.querySelector(".toggle-expand"));
   setupDeleteButton(newInputSet.querySelector(".toggle-delete"));
   setupDuplicateButton(newInputSet.querySelector(".toggle-duplicate"));
@@ -128,24 +186,98 @@ document.getElementById("add-more").addEventListener("click", function () {
   setupFileInputHandlers(count);
 });
 
-//handling price after sale
+// const productPriceInput = document.getElementById("productprice");
+// const saleAmountInput = document.getElementById("sale-amount");
+// const pricePlusCutInput = document.getElementById("priceplusthecut");
+// const finalPriceInput = document.getElementById("finalprice");
+// const storePriceInput = document.getElementById("Storeprice");
+
+// function calculateFinalPrice() {
+//   const productPrice = parseFloat(productPriceInput.value) || 0;
+//   const saleAmount = parseFloat(saleAmountInput.value) || 0;
+
+//   // Step 1: Add Matager's Cut to the Main Price
+//   const matagerCut = productPrice * matager_percentage;
+//   const pricePlusCut = Math.ceil(productPrice + matagerCut); // Round up
+//   pricePlusCutInput.value = pricePlusCut; // Update the input field
+
+//   // Step 2: Apply Sale on the Price + Cut
+//   const discount = pricePlusCut * (saleAmount / 100);
+//   const finalPrice = Math.ceil(pricePlusCut - discount); // Round up
+//   finalPriceInput.value = finalPrice; // Show price after sale
+
+//   // Step 3: Store Price = Final Price (rounded up)
+//   storePriceInput.value = finalPrice;
+// }
+
+// //
+
+// productPriceInput.addEventListener("input", calculateFinalPrice);
+// saleAmountInput.addEventListener("input", calculateFinalPrice);
+
 const productPriceInput = document.getElementById("productprice");
 const saleAmountInput = document.getElementById("sale-amount");
+const pricePlusCutInput = document.getElementById("priceplusthecut");
 const finalPriceInput = document.getElementById("finalprice");
+const storePriceInput = document.getElementById("Storeprice");
+// This will store the current cut value
+let currentCut = 0;
 
 function calculateFinalPrice() {
   const productPrice = parseFloat(productPriceInput.value) || 0;
   const saleAmount = parseFloat(saleAmountInput.value) || 0;
 
-  const discount = productPrice * (saleAmount / 100);
-  const finalPrice = productPrice - discount;
+  // Calculate initial cut
+  const matagerCut = productPrice * matager_percentage;
+  const pricePlusCut = Math.ceil(productPrice + matagerCut);
+  pricePlusCutInput.value = pricePlusCut;
 
-  finalPriceInput.value = finalPrice.toFixed(2);
+  // Calculate discount and final price
+  const discount = pricePlusCut * (saleAmount / 100);
+  const finalPrice = Math.ceil(pricePlusCut - discount);
+  finalPriceInput.value = finalPrice;
+  storePriceInput.value = finalPrice;
+
+  // Store the current cut value (adjusted for sale if any)
+  currentCut = Math.ceil(matagerCut - matagerCut * (saleAmount / 100));
+
+  return currentCut;
 }
-//
 
+// Add event listeners
 productPriceInput.addEventListener("input", calculateFinalPrice);
 saleAmountInput.addEventListener("input", calculateFinalPrice);
+
+function toggleImageInputs(count) {
+  const imageInputs = document.getElementById(`image-inputs-${count}`);
+  const button = document.querySelector(
+    `button[onclick="toggleImageInputs(${count})"]`
+  );
+
+  if (!imageInputs.classList.contains("open")) {
+    // Dynamically set the height to its scrollHeight
+    imageInputs.style.height = `${imageInputs.scrollHeight}px`;
+    imageInputs.classList.add("open");
+    button.innerHTML = 'Hide Images Urls <i class="bi bi-eye-slash-fill"></i>';
+
+    // Remove inline height after transition ends
+    imageInputs.addEventListener(
+      "transitionend",
+      () => (imageInputs.style.height = ""),
+      { once: true }
+    );
+  } else {
+    // Set the height to its current height before collapsing
+    imageInputs.style.height = `${imageInputs.scrollHeight}px`;
+
+    // Force reflow before collapsing
+    requestAnimationFrame(() => {
+      imageInputs.style.height = "0";
+      imageInputs.classList.remove("open");
+      button.innerHTML = 'Show Images Urls <i class="bi bi-eye-fill"></i>';
+    });
+  }
+}
 
 function setupToggleExpand(button) {
   button.addEventListener("click", function () {
@@ -168,10 +300,23 @@ function setupToggleExpand(button) {
     const colorValue = inputSet.querySelector("#colorvalue");
     const quantityValue = inputSet.querySelector("#QuantityValue");
 
-    if (expandIcon.classList.contains("none")) {
-      expandIcon.classList.remove("none");
-      contractIcon.classList.add("none");
-      productData.classList.add("none");
+    // Ensure `max-height` is properly initialized if not set
+    if (!productData.style.maxHeight) {
+      productData.style.maxHeight = "1300px"; // Ensure it starts open
+      productData.style.opacity = "1";
+      productData.style.padding = "10px 0";
+    }
+
+    const isExpanded = productData.style.maxHeight !== "0px";
+
+    if (isExpanded) {
+      // Collapse product data
+      productData.style.maxHeight = "0px";
+      productData.style.opacity = "0";
+      productData.style.padding = "0";
+
+      expandIcon.style.display = "inline";
+      contractIcon.style.display = "none";
 
       sizeLabel.classList.remove("none");
       colorCircleLabel.classList.remove("none");
@@ -181,16 +326,20 @@ function setupToggleExpand(button) {
       quantityValue.classList.remove("none");
 
       // Display the values from the inputs
-      sizeValue.textContent = sizeInput ? sizeInput.value : "";
-      quantityValue.textContent = quantityInput ? quantityInput.value : "";
+      if (sizeInput) sizeValue.textContent = sizeInput.value;
+      if (quantityInput) quantityValue.textContent = quantityInput.value;
       if (colorInput) {
         colorCircleLabel.style.backgroundColor = colorInput.value;
         colorValue.textContent = colorInput.value;
       }
     } else {
-      expandIcon.classList.add("none");
-      contractIcon.classList.remove("none");
-      productData.classList.remove("none");
+      // Expand product data
+      productData.style.maxHeight = "1300px";
+      productData.style.opacity = "1";
+      productData.style.padding = "10px 0";
+
+      expandIcon.style.display = "none";
+      contractIcon.style.display = "inline";
 
       sizeLabel.classList.add("none");
       colorCircleLabel.classList.add("none");
@@ -204,25 +353,61 @@ function setupToggleExpand(button) {
 
 function setupDeleteButton(button) {
   button.addEventListener("click", function () {
-    const element = document.getElementById("input-container");
+    const element = button.closest(".product-record");
+    const inputContainer = document.getElementById("input-container");
 
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to delete this item?",
+      text: "Do you want to delete this size item?",
       icon: "warning",
+      toast: true,
+      position: "top-end",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "No, keep it",
-      customClass: {
-        confirmButton: "btn btn-danger",
-        cancelButton: "btn btn-secondary",
-      },
+      timer: 5000, // Auto close in 5 seconds if no action
     }).then((result) => {
       if (result.isConfirmed) {
-        button.closest(".product-record").remove();
+        // Apply transition effects
+        element.style.transition =
+          "border-color 0.3s ease-in, transform 0.6s ease-in-out";
+        element.style.transform = "translateX(150%)"; // Swipe right
+
+        // Wait before reducing height
+        setTimeout(() => {
+          element.style.transition =
+            "height 0.4s ease-out, margin 0.4s ease-out";
+          element.style.height = "0px";
+          element.style.margin = "0px";
+          element.style.padding = "0px";
+          element.style.overflow = "hidden";
+        }, 500);
+
+        // Remove the element after the height animation
+        setTimeout(() => {
+          element.remove();
+          adjustContainerHeight(inputContainer);
+        }, 900);
+
+        // Show a success toast
+        Swal.fire({
+          title: "Deleted!",
+          text: "The size item has been removed.",
+          icon: "success",
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
       }
     });
   });
+}
+
+function adjustContainerHeight(container) {
+  container.style.transition = "height 0.5s ease-in-out";
+  container.style.height = "auto"; // Adjust height smoothly
 }
 
 function setupDuplicateButton(button) {
@@ -238,19 +423,255 @@ function setupDuplicateButton(button) {
       // Update IDs for inputs and elements within the new duplicate
       updateElementIds(newProductRecord, currentCount);
 
-      document.getElementById("input-container").appendChild(newProductRecord);
+      // Set initial state for animation
+      newProductRecord.style.opacity = "0";
+      newProductRecord.style.transform = "translateY(-20px)";
+      newProductRecord.style.transition =
+        "opacity 0.4s ease-out, transform 0.4s ease-out";
+
+      // Append the cloned record
+      const inputContainer = document.getElementById("input-container");
+      inputContainer.appendChild(newProductRecord);
+
+      // Trigger animation after appending
+      setTimeout(() => {
+        newProductRecord.style.opacity = "1";
+        newProductRecord.style.transform = "translateY(0)";
+      }, 10);
+      // Reinitialize event handlers
       setupToggleExpand(newProductRecord.querySelector(".toggle-expand"));
       setupDeleteButton(newProductRecord.querySelector(".toggle-delete"));
       setupDuplicateButton(newProductRecord.querySelector(".toggle-duplicate"));
+      setupImageUpload(newProductRecord, currentCount);
       setupFileInputHandlers(currentCount);
+      setupRtcCtibClickHandler(currentCount);
     }
   });
 }
 
-function updateElementIds(element, count) {
-  element.querySelectorAll("[id]").forEach((el) => {
-    const newId = el.id.replace(/\d+$/, count);
-    el.id = newId;
+function duplicatePlus(sizeInputId) {
+  const sizeInput = document.getElementById(sizeInputId);
+  const sizeValue = sizeInput.value.trim();
+
+  // Check if the size is a valid number
+  if (isNaN(sizeValue)) {
+    // Show SweetAlert toast if size is not a number
+    Swal.fire({
+      icon: "error",
+      title: "Invalid Size",
+      text: "Size must be a number to use this feature.",
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+    return; // Exit the function
+  }
+
+  // Clone the product record
+  const productRecord = sizeInput.closest(".product-record");
+  if (!productRecord) return;
+
+  const newProductRecord = productRecord.cloneNode(true);
+  const currentCount = document.querySelectorAll(".product-record").length + 1;
+
+  // Update IDs for inputs and elements within the new duplicate
+  updateElementIds(newProductRecord, currentCount);
+
+  // Increment the size value in the cloned record
+  const newSizeInput = newProductRecord.querySelector(`input[name="size"]`);
+  if (newSizeInput) {
+    const newSizeValue = parseInt(newSizeInput.value, 10) + 1;
+    newSizeInput.value = newSizeValue;
+  }
+
+  // Hide the duplicate button in the original record
+  const originalDuplicateBtn =
+    productRecord.querySelector(".duplicatePlus-btn");
+  if (originalDuplicateBtn) {
+    originalDuplicateBtn.remove();
+  }
+
+  // Set initial state for animation
+  newProductRecord.style.opacity = "0";
+  newProductRecord.style.transform = "translateY(-20px)";
+  newProductRecord.style.transition =
+    "opacity 0.4s ease-out, transform 0.4s ease-out";
+
+  // Append the cloned record
+  const inputContainer = document.getElementById("input-container");
+  inputContainer.appendChild(newProductRecord);
+
+  // Trigger animation after appending
+  setTimeout(() => {
+    newProductRecord.style.opacity = "1";
+    newProductRecord.style.transform = "translateY(0)";
+  }, 10);
+
+  // Smoothly scroll to the top of the new duplicated record
+  newProductRecord.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  // Reinitialize event handlers
+  setupToggleExpand(newProductRecord.querySelector(".toggle-expand"));
+  setupDeleteButton(newProductRecord.querySelector(".toggle-delete"));
+  setupDuplicateButton(newProductRecord.querySelector(".toggle-duplicate"));
+  setupImageUpload(newProductRecord, currentCount);
+  setupFileInputHandlers(currentCount);
+  setupRtcCtibClickHandler(currentCount);
+}
+
+function duplicateInRange(sizeInputId) {
+  const modal = document.getElementById("rangeDuplicateModal");
+  const closeBtn = modal.querySelector(".close");
+  const confirmBtn = modal.querySelector("#confirmDuplicateRange");
+  const startSizeInput = modal.querySelector("#startSize");
+  const endSizeInput = modal.querySelector("#endSize");
+
+  // Open the modal
+  modal.style.display = "flex";
+
+  // Close the modal when the close button is clicked
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+  };
+
+  // Close the modal when clicking outside of it
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  // Handle the confirmation button click
+  confirmBtn.onclick = () => {
+    const startSize = parseInt(startSizeInput.value.trim(), 10);
+    const endSize = parseInt(endSizeInput.value.trim(), 10);
+
+    // Validate the inputs
+    if (isNaN(startSize) || isNaN(endSize) || startSize >= endSize) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Range",
+        text: "Please enter a valid start and end size.",
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+      return;
+    }
+
+    // Close the modal
+    modal.style.display = "none";
+
+    // Get the original product record
+    const sizeInput = document.getElementById(sizeInputId);
+    const productRecord = sizeInput.closest(".product-record");
+    if (!productRecord) return;
+
+    // Calculate the number of duplicates
+    const numberOfDuplicates = endSize - startSize + 1;
+
+    // Duplicate the product record for each size in the range
+    for (let i = 0; i < numberOfDuplicates; i++) {
+      const newProductRecord = productRecord.cloneNode(true);
+      const currentCount =
+        document.querySelectorAll(".product-record").length + 1;
+
+      // Update IDs for inputs and elements within the new duplicate
+      updateElementIds(newProductRecord, currentCount);
+
+      // Set the size value in the cloned record
+      const newSizeInput = newProductRecord.querySelector(`input[name="size"]`);
+      if (newSizeInput) {
+        newSizeInput.value = startSize + i;
+      }
+
+      // Hide the duplicate button in the original record
+      const originalDuplicateBtn =
+        productRecord.querySelector(".duplicatePlus-btn");
+      if (originalDuplicateBtn) {
+        originalDuplicateBtn.classList.add("hidden");
+      }
+
+      // Hide the duplicate button in the duplicated records
+      const newDuplicateBtn =
+        newProductRecord.querySelector(".duplicatePlus-btn");
+      if (newDuplicateBtn) {
+        newDuplicateBtn.classList.add("hidden");
+      }
+
+      // Set initial state for animation
+      newProductRecord.style.opacity = "0";
+      newProductRecord.style.transform = "translateY(-20px)";
+      newProductRecord.style.transition =
+        "opacity 0.4s ease-out, transform 0.4s ease-out";
+
+      // Append the cloned record
+      const inputContainer = document.getElementById("input-container");
+      inputContainer.appendChild(newProductRecord);
+
+      // Trigger animation after appending
+      setTimeout(() => {
+        newProductRecord.style.opacity = "1";
+        newProductRecord.style.transform = "translateY(0)";
+      }, 10);
+
+      // Reinitialize event handlers
+      setupToggleExpand(newProductRecord.querySelector(".toggle-expand"));
+      setupDeleteButton(newProductRecord.querySelector(".toggle-delete"));
+      setupDuplicateButton(newProductRecord.querySelector(".toggle-duplicate"));
+      setupImageUpload(newProductRecord, currentCount);
+      setupFileInputHandlers(currentCount);
+      setupRtcCtibClickHandler(currentCount);
+    }
+
+    // Smoothly scroll to the end of the duplicated items
+    const lastDuplicatedRecord =
+      document.querySelectorAll(".product-record")[
+        document.querySelectorAll(".product-record").length - 1
+      ];
+    lastDuplicatedRecord.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // Show success toast
+    Swal.fire({
+      icon: "success",
+      title: "Duplicated Successfully",
+      text: `Duplicated ${numberOfDuplicates} Items.`,
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+  };
+}
+
+function updateElementIds(record, count) {
+  record.querySelectorAll("[id]").forEach((element) => {
+    // Handle IDs ending with numbers
+    if (/\d+$/.test(element.id)) {
+      element.id = element.id.replace(/\d+$/, count);
+    }
+    // Handle IDs with underscores (e.g., img1_1 -> img1_count)
+    else if (element.id.includes("_")) {
+      const parts = element.id.split("_");
+      element.id = `${parts[0]}_${count}`;
+    }
+    // Handle IDs with 'image-inputs-' prefix
+    else if (element.id.includes("image-inputs-")) {
+      element.id = `image-inputs-${count}`;
+    }
+  });
+
+  // Update "onclick" attributes for buttons
+  record.querySelectorAll("[onclick]").forEach((button) => {
+    button.setAttribute(
+      "onclick",
+      button.getAttribute("onclick").replace(/\d+/, count)
+    );
   });
 }
 
@@ -349,13 +770,13 @@ async function handleFileSelect(event, dropZone) {
 
   try {
     // choose by the 2 ways
-    const result = await imgurUpload(clientId, formData);
+    const result = await imgurUpload(clientId, files[0]);
     // const result = await uploadToCloudinary(file, uploadPreset, cloudName);
     preloader.remove();
 
     const imageUrl = result.data?.link;
     const uploadStatus = document.createElement("div");
-    uploadStatus.classList.add("upload-status");
+    uploadStatus.classList.add("upload-status", "upload-ico");
 
     if (result.success) {
       const imgElement = document.createElement("img");
@@ -373,11 +794,11 @@ async function handleFileSelect(event, dropZone) {
       }
 
       if (uploadStatus) {
-        uploadStatus.innerHTML = `<p><i class="bi bi-check-circle-fill blue-check"></i></p>`;
+        uploadStatus.innerHTML = `<p><i class="bi bi-cloud-check"></i></p>`;
       }
     } else {
       if (uploadStatus) {
-        uploadStatus.innerHTML = `<p><i class="bi bi-x-circle-fill red-check"></i></p><p class="hidden">${result.data.error}</p>`;
+        uploadStatus.innerHTML = `<p><i class="bi bi-cloud-slash red-check"></i></p><p class="hidden">${result.data.error}</p>`;
       }
     }
 
@@ -387,7 +808,7 @@ async function handleFileSelect(event, dropZone) {
     preloader.remove();
     const uploadStatus = document.createElement("div");
     uploadStatus.classList.add("upload-status");
-    uploadStatus.innerHTML = `<p><i class="bi bi-x-circle-fill red-check"></i></p><p class="hidden">${error.message}</p>`;
+    uploadStatus.innerHTML = `<p><i class="bi bi-cloud-slash red-check"></i></p><p class="hidden">${error.message}</p>`;
     dropZone.parentElement.appendChild(uploadStatus);
   }
 }
@@ -427,13 +848,13 @@ async function handleDrop(event, dropZone) {
 
   try {
     // choose by the 2 ways
-    const result = await imgurUpload(clientId, formData);
-    // const result = await uploadToCloudinary(file, uploadPreset, cloudName);
+    const result = await imgurUpload(clientId, files[0]);
+    // const result = await uploadToCloudinary(files[0], uploadPreset, cloudName);
     preloader.remove();
 
     const imageUrl = result.data?.link;
     const uploadStatus = document.createElement("div");
-    uploadStatus.classList.add("upload-status");
+    uploadStatus.classList.add("upload-status", "upload-ico");
 
     if (result.success) {
       const imgElement = document.createElement("img");
@@ -451,11 +872,11 @@ async function handleDrop(event, dropZone) {
       }
 
       if (uploadStatus) {
-        uploadStatus.innerHTML = `<p><i class="bi bi-check-circle-fill blue-check"></i></p>`;
+        uploadStatus.innerHTML = `<p><i class="bi bi-cloud-check"></i></p>`;
       }
     } else {
       if (uploadStatus) {
-        uploadStatus.innerHTML = `<p><i class="bi bi-x-circle-fill red-check"></i></p><p class="hidden">${result.data.error}</p>`;
+        uploadStatus.innerHTML = `<p><i class="bi bi-cloud-slash red-check"></i></p><p class="hidden">${result.data.error}</p>`;
       }
     }
 
@@ -466,7 +887,7 @@ async function handleDrop(event, dropZone) {
 
     const uploadStatus = document.createElement("div");
     uploadStatus.classList.add("upload-status");
-    uploadStatus.innerHTML = `<p><i class="bi bi-x-circle-fill red-check"></i></p><p class="hidden">${error.message}</p>`;
+    uploadStatus.innerHTML = `<p><i class="bi bi-cloud-slash red-check"></i></p><p class="hidden">${error.message}</p>`;
     dropZone.parentElement.appendChild(uploadStatus);
   }
 }
@@ -479,10 +900,112 @@ document.querySelectorAll(".toggle-delete").forEach(function (button) {
   setupDeleteButton(button);
 });
 
+// External function to handle the click event for rtc-ctib
+
+function setupRtcCtibClickHandler(count) {
+  // Get the rtc-ctib element
+  const rtcCtib = document.getElementById(`ReturnToColor-ctib-${count}`);
+  if (!rtcCtib) {
+    console.error(`Element not found: ReturnToColor-ctib-${count}`);
+    return;
+  }
+
+  // Get the change-ctib, save-ctib, color input, and Colorbg input elements
+  const changeCtib = document.getElementById(`change-ctib-${count}`);
+  const colorInput = document.getElementById(`Color${count}`);
+  const colorBgInput = document.getElementById(`Colorbg${count}`);
+  const imageInput = document.getElementById(`imageInput${count}`);
+
+  // Check if the elements exist
+  if (!changeCtib || !colorInput || !colorBgInput) {
+    console.error(
+      `Elements not found: change-ctib-${count}, save-ctib-${count}, Color${count}, or Colorbg${count}`
+    );
+    return;
+  }
+
+  // Function to show the change-ctib and save-ctib elements
+  const showElements = () => {
+    changeCtib.classList.remove("hidden");
+
+    // Trigger the transition by forcing a reflow
+    void changeCtib.offsetWidth; // Force reflow
+
+    // Add the visible class to trigger the transition
+    changeCtib.classList.add("visible");
+
+    // Hide the color input and make Colorbg input read-only
+    colorInput.classList.add("hidden");
+    colorBgInput.classList.add("cursornotallowed");
+    colorBgInput.readOnly = true;
+  };
+
+  // Function to hide the change-ctib and save-ctib elements
+  const hideElements = () => {
+    changeCtib.classList.remove("visible");
+
+    // Wait for the transition to complete before adding the hidden class
+    setTimeout(() => {
+      changeCtib.classList.add("hidden");
+      colorBgInput.readOnly = false;
+    }, 300); // Match this delay to the transition duration in CSS
+  };
+
+  // Function to show the color picker and remove the background image
+  const showColorPicker = () => {
+    // Remove the background image
+    colorBgInput.style.backgroundImage = "";
+
+    // Show the color picker with a transition
+    colorInput.style.opacity = "0"; // Start fully transparent
+    colorInput.style.transition = "opacity 0.3s ease"; // Smooth transition
+    colorInput.classList.remove("hidden");
+
+    // Trigger the transition by forcing a reflow
+    void colorInput.offsetWidth; // Force reflow
+
+    // Fade in the color picker
+    colorInput.style.opacity = "1";
+
+    // Make Colorbg input editable and remove the not-allowed cursor
+    colorBgInput.readOnly = false;
+    colorBgInput.classList.remove("cursornotallowed");
+    colorBgInput.style.zIndex = "0";
+  };
+
+  // Add a click event listener to rtc-ctib
+  rtcCtib.addEventListener("click", () => {
+    const isVisible = changeCtib.classList.contains("visible");
+    if (isVisible) {
+      hideElements();
+      showColorPicker(); // Show the color picker and remove the background image
+    } else {
+      showElements();
+    }
+  });
+
+  // Add a click event listener to Colorbg input
+  colorBgInput.addEventListener("click", () => {
+    if (colorBgInput.readOnly) {
+      showElements();
+      imageInput.click();
+    }
+  });
+}
 document
   .getElementById("add-product-form")
   .addEventListener("submit", function (event) {
+    // Get the selected size chart URL
+    const sizeChartSelect = document.getElementById("size-chart");
+    const selectedOption =
+      sizeChartSelect.options[sizeChartSelect.selectedIndex];
+
+    const selectedSizeChartUrl = selectedOption ? selectedOption.value : ""; // Get only selected or empty
+
     event.preventDefault(); // Prevent default form submission behavior
+
+    // Calculate prices and get the current cut value
+    const cut = calculateFinalPrice();
 
     // Check if the user is authenticated
     const user = firebase.auth().currentUser; // Get the current user
@@ -509,16 +1032,20 @@ document
 
         submitTxt.classList.add("hidden");
         submitButton.classList.remove("hidden");
-
         // Collect input values
         const formData = new FormData(this);
+        const saleAmount = formData.get("sale-amount")
+          ? parseInt(formData.get("sale-amount"))
+          : 0;
         const product = {
           "Brand-Name": formData.get("Brand-Name"),
-          "Product-Price": formData.get("Product-Price"),
+          "Product-Price": pricePlusCutInput.value, // Get the calculated price
+          "Price-before": productPriceInput.value,
+          "matager-Cut": cut, // Use the calculated cut value
           category: formData.get("category"),
           type: formData.get("Type"),
           piece: formData.get("Piece"),
-          "sale-amount": formData.get("sale-amount"),
+          "sale-amount": saleAmount,
           "product-description": formData.get("product-description"),
           "posted-at": new Date().toLocaleString(),
           "product-photo": "", // Placeholder, will be set later
@@ -529,6 +1056,7 @@ document
           "product-photo6": "", // Placeholder, will be set later
           "product-title": formData.get("product-title"),
           sizes: {}, // Object to store sizes and colors
+          "size-chart-url": selectedSizeChartUrl, // Add the selected size chart URL
         };
 
         // Iterate through each product input set
@@ -563,12 +1091,18 @@ document
           ).value;
 
           // Set product photos if not already set
-          if (!product["product-photo"]) product["product-photo"] = imageUrl1;
-          if (!product["product-photo2"]) product["product-photo2"] = imageUrl2;
-          if (!product["product-photo3"]) product["product-photo3"] = imageUrl3;
-          if (!product["product-photo4"]) product["product-photo4"] = imageUrl4;
-          if (!product["product-photo5"]) product["product-photo5"] = imageUrl5;
-          if (!product["product-photo6"]) product["product-photo6"] = imageUrl6;
+          if (!product["product-photo"] && imageUrl1)
+            product["product-photo"] = imageUrl1;
+          if (!product["product-photo2"] && imageUrl2)
+            product["product-photo2"] = imageUrl2;
+          if (!product["product-photo3"] && imageUrl3)
+            product["product-photo3"] = imageUrl3;
+          if (!product["product-photo4"] && imageUrl4)
+            product["product-photo4"] = imageUrl4;
+          if (!product["product-photo5"] && imageUrl5)
+            product["product-photo5"] = imageUrl5;
+          if (!product["product-photo6"] && imageUrl6)
+            product["product-photo6"] = imageUrl6;
 
           // Create the color object
           const colorObject = {
@@ -582,6 +1116,13 @@ document
             qty: quantity,
           };
 
+          // Remove empty image fields from the color object
+          Object.keys(colorObject).forEach((key) => {
+            if (colorObject[key] === "") {
+              delete colorObject[key];
+            }
+          });
+
           // Check if the size already exists in the product's sizes object
           if (!product.sizes[size]) {
             product.sizes[size] = {};
@@ -591,7 +1132,51 @@ document
           product.sizes[size][colorname] = colorObject;
         });
 
-        // Send the product object to the specified API URL with the ID token in the headers
+        // Remove empty fields from the product object
+        const cleanProduct = {};
+        Object.keys(product).forEach((key) => {
+          if (
+            product[key] !== "" &&
+            !(
+              typeof product[key] === "object" &&
+              Object.keys(product[key]).length === 0
+            )
+          ) {
+            cleanProduct[key] = product[key];
+          }
+        });
+
+        // Validate if at least one image is provided
+        const hasImages =
+          cleanProduct["product-photo"] ||
+          cleanProduct["product-photo2"] ||
+          cleanProduct["product-photo3"] ||
+          cleanProduct["product-photo4"] ||
+          cleanProduct["product-photo5"] ||
+          cleanProduct["product-photo6"];
+
+        if (!hasImages) {
+          // Show SweetAlert toast if no images are provided
+          Swal.fire({
+            text: "Cannot upload product without images.",
+            icon: "info",
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 5000,
+            customClass: {
+              container: "swal2-custom",
+              title: "swal2-custom",
+            },
+          });
+
+          // Hide spinner and reset button
+          submitTxt.classList.remove("hidden");
+          submitButton.classList.add("hidden");
+          return; // Stop further execution
+        }
+
+        // Send the cleaned product object to the specified API URL with the ID token in the headers
         fetch(
           `https://matager-f1f00-default-rtdb.firebaseio.com/Stores/${user.uid}/Products.json?auth=${idToken}`,
           {
@@ -600,7 +1185,7 @@ document
               "Content-Type": "application/json",
               Authorization: `Bearer ${idToken}`,
             },
-            body: JSON.stringify(product),
+            body: JSON.stringify(cleanProduct),
           }
         )
           .then((response) => {
@@ -614,19 +1199,20 @@ document
               title: "Success!",
               text: "Product added successfully.",
               icon: "success",
+              toast: true,
+              position: "top-end",
               showConfirmButton: false,
+              timer: 5000,
               customClass: {
                 container: "swal2-custom",
                 title: "swal2-custom",
               },
             });
+            decreaseStock();
+            document.getElementById("add-product-form").reset(); // Reset form
+            document.getElementById("input-container").innerHTML = "";
             submitTxt.classList.remove("hidden");
             submitButton.classList.add("hidden");
-
-            // Wait for 1.5 seconds before reloading the page
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
           })
           .catch((error) => {
             console.error("Error adding document: ", error);

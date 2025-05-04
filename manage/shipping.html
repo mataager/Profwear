@@ -13,6 +13,7 @@
         href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
     <script src="./js/static.js"></script>
+    <script src="./js/preventClicks.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="./css/all.css">
     <link rel="stylesheet" href="./css/alll.css">
@@ -25,23 +26,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="./js/NotoSansArabicBase64.js"></script>
 <script src="./js/inithialize-firebase.js"></script>
-<script>
-    function checkAuthAndRedirect() {
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                // User is signed in, continue to the page
-                //  console.log("User is signed in:", user.email);
-            } else {
-                // No user is signed in, redirect to login page
-                // console.log("User is not signed in, redirecting to login page...");
-                window.location.href = './index.html'; // Adjust the URL as needed
-            }
-        });
-    }
-</script>
+<script src="./js/checkUserAuthStatus.js"></script>
+<script src="./js/preventClicks.js"></script>
 <script src="./js/Logout.js"></script>
 
 <body id="top" onload="checkAuthAndRedirect()">
+
     <main>
         <div class="formbold-form-wrapper">
             <div class="mb-20 flex align-items space-between">
@@ -70,12 +60,14 @@
                 <div class="flex flex-wrap center">
                     <div id="show-completed-btn" onclick="showOrderSection('completed-orders-section')"
                         class="card mb-20 height-max-content padding-15 border-top-g">
-
-                        <h3>Completed orders</h3>
+                        <div class="flex align-items">
+                            <h3>Completed orders</h3>
+                        </div>
                         <p class="break-word" id="completed-count"></p>
                         <div class="shine"></div>
 
                     </div>
+
                 </div>
                 <div class="flex flex-wrap center">
                     <div id="show-shipped-btn" onclick="showOrderSection('shipped-orders-section')"
@@ -108,20 +100,20 @@
                 </div>
             </div>
             <div class="flex center mb-20 flex-wrap mt-40">
-                <div class="m-LR-2 flex align-items mb-10" style="width:fit-content;margin-right: 5px;">
+                <div class="m-LR-2 flex align-items" style="width:fit-content;margin-right: 5px;">
                     <div class="shadow">
                         <select style="font-size: small !important;font-style: normal;" name="category" id="category"
-                            class="formbold-form-input">
-                            <option value="men">Order-ID</option>
-                            <option value="women">Email</option>
-                            <option value="kids">Phone-num</option>
+                            class="formbold-form-input order-select">
+                            <option value="OrderID">Order-ID</option>
+                            <option value="Email">Email</option>
+                            <option value="Phone">Phone</option>
                         </select>
                     </div>
                 </div>
                 <div class="input-wrapper ">
-                    <input type="text" class="formbold-form-input w-300" id="product-id-input-del"
-                        placeholder="Search among orders">
-                    <button id="sub-btn-del" type="button" class="h-44 " onclick="">
+                    <input type="text" class="formbold-form-input w-300 formbold-form-input-border"
+                        id="product-id-input-del" placeholder="Search among orders">
+                    <button id="sub-btn-del" type="button" class="" onclick="">
                         <div id="sub-txt-del">
                             <i class="bi bi-search"></i>
                         </div>
@@ -132,7 +124,12 @@
 
             <div class="mb-20">
 
-                <div class="flex flex-wrap center overflow-y">
+                <div class="flex flex-wrap center overflow-y relative">
+                    <div id="preloader-overlay">
+                        <div id="preventing-preloader" class="preloader">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
                     <!-- Main Completed Orders -->
                     <div id="completed-orders-section" class="mb-20 overflow">
                         <div class="flex center mb-20 mt-20">Completed Orders</div>

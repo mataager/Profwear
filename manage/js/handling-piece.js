@@ -8,6 +8,8 @@ const pieces = {
     { value: "Sweatshirt", text: "Sweatshirt" },
     { value: "Hoodie", text: "Hoodie" },
     { value: "Knitwear", text: "Knitwear" },
+    { value: "Suit", text: "Suit" },
+    { value: "Training Suit", text: "Training Suit" },
     { value: "Jacket", text: "Jacket" },
     { value: "Hoodies", text: "Hoodies" },
     { value: "Trousers", text: "Trousers" },
@@ -17,10 +19,15 @@ const pieces = {
     { value: "Jogger", text: "Jogger" },
     { value: "Sweatpants", text: "Sweatpants" },
     { value: "Underwear", text: "Underwear" },
-    { value: "Socks", text: "Socks" },
-    { value: "Shoes", text: "Shoes" },
     { value: "Caps", text: "Caps" },
+    { value: "Socks", text: "Socks" },
     { value: "Slipper", text: "Slipper" },
+    { value: "FlipFlop", text: "FlipFlop" },
+    { value: "Shoes", text: "Shoes" },
+    { value: "Sneakers", text: "Sneakers" },
+    { value: "Moccasins", text: "Moccasins" },
+    { value: "Oxfords", text: "Oxfords" },
+    { value: "Boots", text: "Boots" },
   ],
   women: [
     { value: "T-Shirt", text: "T-Shirt" },
@@ -44,8 +51,13 @@ const pieces = {
     { value: "Underwear", text: "Underwear" },
     { value: "Socks", text: "Socks" },
     { value: "Caps", text: "Caps" },
-    { value: "Shoes", text: "Shoes" },
     { value: "Slipper", text: "Slipper" },
+    { value: "FlipFlop", text: "FlipFlop" },
+    { value: "Shoes", text: "Shoes" },
+    { value: "Sneakers", text: "Sneakers" },
+    { value: "Moccasins", text: "Moccasins" },
+    { value: "Oxfords", text: "Oxfords" },
+    { value: "Boots", text: "Boots" },
     { value: "Heels", text: "Heels" },
   ],
   kids: [
@@ -75,6 +87,8 @@ const pieces = {
     { value: "Caps", text: "Caps" },
     { value: "Shoes", text: "Shoes" },
     { value: "Slipper", text: "Slipper" },
+    { value: "FlipFlop", text: "FlipFlop" },
+    { value: "Sneakers", text: "Sneakers" },
   ],
 };
 
@@ -108,7 +122,16 @@ const bottomPieces = [
 
 const mixPieces = ["Dress", "Jumpsuit"];
 
-const footwearPieces = ["Shoes", "Slipper", "Heels"];
+const footwearPieces = [
+  "Shoes",
+  "Slipper",
+  "Heels",
+  "FlipFlop",
+  "Sneakers",
+  "Boots",
+  "Moccasins",
+  "Oxfords",
+];
 
 // Function to update the piece dropdown options based on selected category
 function updatePieceOptions(categorySelect, pieceSelect, typeSelect) {
