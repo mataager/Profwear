@@ -16,12 +16,12 @@ const minshipping = 65;
 const maxshipping = 90;
 const specialshipping = 75;
 const vanishedstock = false;
+const autopricehandle = true;
 
 // guest checkout
 const GuestEmail = "profstoreguest@gmail.com";
 //images url
-const pannerurl =
-  "";
+const pannerurl = "";
 //
 const newarrivalurl = "https://i.imgur.com/an9ECvD.jpeg";
 const saleurl = "https://i.imgur.com/nQdi6SN.jpeg";

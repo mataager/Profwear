@@ -31,7 +31,8 @@ function fetchAndRenderProducts() {
         saleContainer.innerHTML = ""; // Clear existing sale items
 
         // Shuffle the product data
-        const shuffledData = shuffle(Object.entries(data));
+        // const shuffledData = shuffle(Object.entries(data));
+        const shuffledData = Object.entries(data);
 
         // Get the last 15 products for New Arrivals
         const newArrivalsData = shuffledData.slice(-15);
