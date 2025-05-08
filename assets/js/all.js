@@ -142,18 +142,18 @@ function calculateSalePrice(originalPrice, saleAmount) {
     return Math.round(discountedPrice);
   }
 
-  // Small prices (≤ 999): round UP to nearest 50
-  if (discountedPrice <= 999) {
-    return Math.ceil(discountedPrice / 50) * 50;
-  }
+  // // Small prices (≤ 999): round UP to nearest 50
+  // if (discountedPrice <= 999) {
+  //   return Math.ceil(discountedPrice / 50) * 50;
+  // }
 
-  // Medium prices (1,000-9,999): round UP to nearest 100
-  if (discountedPrice <= 9999) {
-    return Math.ceil(discountedPrice / 100) * 100;
-  }
+  // // Medium prices (1,000-9,999): round UP to nearest 100
+  // if (discountedPrice <= 9999) {
+  //   return Math.ceil(discountedPrice / 100) * 100;
+  // }
 
-  // Large prices (≥10,000): round UP to nearest 1000
-  return Math.ceil(discountedPrice / 1000) * 1000;
+  // // Large prices (≥10,000): round UP to nearest 1000
+  // return Math.ceil(discountedPrice / 1000) * 1000;
 }
 
 //using them in cart checkout page
