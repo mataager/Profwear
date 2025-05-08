@@ -16,7 +16,7 @@ const minshipping = 65;
 const maxshipping = 90;
 const specialshipping = 75;
 const vanishedstock = false;
-const autopricehandle = true;
+const autopricehandle = false;
 
 // guest checkout
 const GuestEmail = "profstoreguest@gmail.com";
