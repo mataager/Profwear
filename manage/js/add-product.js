@@ -770,7 +770,7 @@ async function handleFileSelect(event, dropZone) {
 
   try {
     // choose by the 2 ways
-    const result = await imgurUpload(clientId, files[0]);
+    const result = await imgurUpload(clientId, file);
     // const result = await uploadToCloudinary(file, uploadPreset, cloudName);
     preloader.remove();
 
