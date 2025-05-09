@@ -373,8 +373,8 @@ function renderBestSellers(products, bestSellersContainer) {
     return;
   }
 
-  // Limit to 20 bestsellers and shuffle
-  const limitedBestSellers = shuffle(bestSellers).slice(0, 20);
+  // Limit to 20 bestsellers, shuffle, then reverse the order
+  const limitedBestSellers = shuffle(bestSellers).slice(0, 20).reverse();
 
   limitedBestSellers.forEach(([key, product]) => {
     const bestSellerItem = document.createElement("li");
