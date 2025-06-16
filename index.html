@@ -42,13 +42,9 @@
 
             <div class="overlay" data-overlay=""></div>
 
-
             <a href="./index.html" class="logo store-name ">
                 PROF STORE
             </a>
-
-
-
 
             <button class="nav-open-btn" data-nav-open-btn="" aria-label="Open Menu">
                 <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
@@ -60,13 +56,11 @@
                     <ion-icon name="close-outline" role="img" class="md hydrated" aria-label="close outline"></ion-icon>
                 </button>
 
-                <a href="#" class="logo bg-white">
-                    <a href="./index.html" class="logo store-name ">
-                        King Store
-                    </a>
-                </a>
+                <a href="./index.html" class="logo store-name ">
+                    PROF STORE</a>
 
                 <ul class="navbar-list">
+
 
                     <li class="navbar-item">
                         <a href="#" class="navbar-link" onclick="changeFrameSrc('index.html')">Home</a>
@@ -76,11 +70,11 @@
                     </li>
                     <li class="navbar-item">
                         <a href="#" class="navbar-link"
-                            onclick="changeFrameSrc('./Category.html?&piece=Track-Suit')">Tech Fleece</a>
+                            onclick="changeFrameSrc('./Category.html?&amp;piece=Track-Suit')">Tech Fleece</a>
                     </li>
-
                     <!-- /mega menus & brands menu/ -->
-                    <li class="navbar-item" id="megamenu" data-mega-menu>
+
+                    <li class="navbar-item hidden" id="megamenu" data-mega-menu>
                         <div class="flex align-items justify-content-space-between">
                             <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
                             <a id="open-category" class="rotate open-category open-category-btn">
@@ -155,6 +149,7 @@
         </div>
         <article id="mainpage">
 
+
             <section class="prof-hero-section" id="prof-hero">
                 <div class="prof-hero-overlay"></div>
                 <div class="container">
@@ -224,6 +219,7 @@
                 window.addEventListener('load', initHeroAnimations);
                 // OR use the DOMContentLoaded version above
             </script>
+
 
             <section class="section product animate-on-scroll" id="BestSellersSection">
                 <div class="container">
@@ -440,7 +436,22 @@
                             </a>
                         </li>
                     </ul>
+                    <div class="footer-list">
 
+                        <p class="footer-list-title animate-on-scroll">Newsletter</p>
+
+                        <p class="newsletter-text animate-on-scroll">
+                            Send us your email to keeping up with our latest updates..
+                        </p>
+
+                        <form action="" class="newsletter-form animate-on-scroll">
+                            <input type="email" name="email" required="" placeholder="Email Address"
+                                class="newsletter-input">
+
+                            <button type="submit" class="btn2 btn-primary">Subscribe</button>
+                        </form>
+
+                    </div>
 
                     <ul class="footer-list animate-on-scroll">
                         <p class="footer-list-title animate-on-scroll">Matager</p>
@@ -481,11 +492,13 @@
     <script src="./assets/js/update-cart-amont.js"></script>
     <script src="./assets/js/route.js"></script>
     <script src="./assets/js/all.js"></script>
+    <script src="./assets/js/buynow.js"></script>
     <script src="./assets/js/rendering-megamenu.js"></script>
     <script src="./assets/js/rendering-collections.js"></script>
     <script src="./assets/js/rendering-search.js"></script>
     <script src="./assets/js/addfavouriteproduct.js"></script>
     <script defer src="./assets/js/animation.js"></script>
+    <script src="./assets/js/check-store-status.js"></script>
 </body>
 
 </html>

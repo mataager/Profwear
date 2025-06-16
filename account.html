@@ -33,13 +33,9 @@
 
         <div class="overlay" data-overlay=""></div>
 
-
         <a href="./index.html" class="logo store-name ">
             PROF STORE
         </a>
-
-
-
 
         <button class="nav-open-btn" data-nav-open-btn="" aria-label="Open Menu">
             <ion-icon name="menu-outline" role="img" class="md hydrated" aria-label="menu outline"></ion-icon>
@@ -51,13 +47,11 @@
                 <ion-icon name="close-outline" role="img" class="md hydrated" aria-label="close outline"></ion-icon>
             </button>
 
-            <a href="#" class="logo bg-white">
-                <a href="./index.html" class="logo store-name ">
-                    King Store
-                </a>
-            </a>
+            <a href="./index.html" class="logo store-name ">
+                PROF STORE</a>
 
             <ul class="navbar-list">
+
 
                 <li class="navbar-item">
                     <a href="#" class="navbar-link" onclick="changeFrameSrc('index.html')">Home</a>
@@ -65,9 +59,13 @@
                 <li class="navbar-item">
                     <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Shop</a>
                 </li>
-
+                <li class="navbar-item">
+                    <a href="#" class="navbar-link"
+                        onclick="changeFrameSrc('./Category.html?&amp;piece=Track-Suit')">Tech Fleece</a>
+                </li>
                 <!-- /mega menus & brands menu/ -->
-                <li class="navbar-item" id="megamenu" data-mega-menu>
+
+                <li class="navbar-item hidden" id="megamenu" data-mega-menu>
                     <div class="flex align-items justify-content-space-between">
                         <a href="#" class="navbar-link" onclick="changeFrameSrc('Products.html')">Products</a>
                         <a id="open-category" class="rotate open-category open-category-btn">
@@ -163,11 +161,11 @@
                     <h5>Account</h5>
                 </div>
             </div>
-            <img class="animate-on-scroll-auto" width="50px" src="./assets/images/matager-bag.svg">
+
             <h5 class="align-txt animate-on-scroll-auto spec-font">Sign in/up with Your Matager Account</h5>
-            <p class="flex flex-wrap center font-small align-txt animate-on-scroll-auto spec-font">
+            <p class="flex flex-wrap center font-small align-txt animate-on-scroll-auto spec-font gap-5">
                 Want to know the advantages of a <a href="https://matager.online/docs" target="_blank"
-                    class="link m-x-3">Matager
+                    class="link-matager m-x-3">Matager
                     account</a>?
             </p>
             <div>
@@ -481,3 +479,4 @@
 <script src="./assets/js/all.js"></script>
 <script src="./assets/js/rendering-megamenu.js"></script>
 <script src="./assets/js/rendering-search.js"></script>
+<script src="./assets/js/check-store-status.js"></script>

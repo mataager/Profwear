@@ -12,12 +12,15 @@ const productnavbar = ["no"];
 const brandsnavbar = ["no"];
 const storeType = "clothing"; // clothing or footwear
 const freeshipping = "1150";
+const maincities = ["Cairo", "Giza", "Alexandria"];
 const minshipping = 65;
 const maxshipping = 90;
 const specialshipping = 75;
 const vanishedstock = false;
+const outofstock = true;
 const autopricehandle = false;
-
+const flippedimages = false;
+const codfees = 10;
 // guest checkout
 const GuestEmail = "profstoreguest@gmail.com";
 //images url

@@ -265,7 +265,7 @@ renderMegaMenu();
 const brandsData = [
   {
     name: "Nike",
-    logo: "https://cdn.worldvectorlogo.com/logos/nike-11.svg",
+    logo: "https://www.svgrepo.com/show/303173/nike-3-logo.svg",
   },
   {
     name: "Adidas",
@@ -302,6 +302,10 @@ const brandsData = [
   {
     name: "UGG",
     logo: "https://cdn.worldvectorlogo.com/logos/ugg-australia.svg",
+  },
+  {
+    name: "Hermes",
+    logo: "https://www.svgrepo.com/show/303584/hermes-1-logo.svg",
   },
   {
     name: "Vans",
