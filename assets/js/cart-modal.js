@@ -496,7 +496,7 @@ function SizeRef(size) {
   const sizeButtons = document.querySelectorAll(".size-radio");
   sizeButtons.forEach((button) => {
     button.style.backgroundColor =
-      button.textContent.trim() === size ? "#333" : "";
+      button.textContent.trim() === size ? "var(rgb(51, 51, 51)" : "";
     button.style.color = button.textContent.trim() === size ? "#fff" : "#000";
   });
 
@@ -508,8 +508,8 @@ function SizeRef(size) {
       const qty = colorsForSize[color]["qty"];
       return `
       <div class="colorOptionwrapper" onclick="colorRef('${color}')">
-          <div class="color-option" 
-               data-color-name="${color}" 
+          <div class="color-option"
+               data-color-name="${color}"
                data-qty="${qty}"
                style="background-color: ${colorsForSize[color]["color-value"]}">
           </div>
@@ -517,6 +517,15 @@ function SizeRef(size) {
     })
     .join("");
   colorList.classList.remove("hidden");
+
+  // Automatically select the first available color
+  const firstColor = Object.keys(colorsForSize)[0];
+  if (firstColor) {
+    // Use setTimeout to ensure the color elements are rendered before selection
+    setTimeout(() => {
+      colorRef(firstColor);
+    }, 0);
+  }
 
   updateAddToCartButtonState();
 }
@@ -596,5 +605,6 @@ function updateAddToCartButtonState() {
   addToCartButton.onclick = addToCart;
   buynowButton.onclick = handleBuyNowClick;
 }
+
 
 
